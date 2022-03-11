@@ -1,4 +1,4 @@
-package devsearch.profiles.ws.service;
+package devsearch.profiles.ws.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import devsearch.profiles.ws.exception.ExceptionMessages;
 import devsearch.profiles.ws.exception.RestApiProfilesException;
 import devsearch.profiles.ws.io.entity.ProfileEntity;
 import devsearch.profiles.ws.io.repository.ProfileRepository;
+import devsearch.profiles.ws.service.ProfileService;
 import devsearch.profiles.ws.shared.dto.ProfileDto;
 import devsearch.profiles.ws.shared.dto.ProfileListDto;
 import devsearch.profiles.ws.shared.utils.AppConstants;
