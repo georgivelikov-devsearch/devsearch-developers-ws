@@ -1,5 +1,7 @@
 package devsearch.profiles.ws.service;
 
+import java.util.List;
+
 import devsearch.profiles.ws.exception.RestApiProfilesException;
 import devsearch.profiles.ws.shared.dto.ProfileDto;
 import devsearch.profiles.ws.shared.dto.ProfileListDto;
@@ -19,4 +21,6 @@ public interface ProfileService {
     public void deleteProfile(String profileId) throws RestApiProfilesException;
 
     public ProfileListDto getPublicProfiles(int page, int limit, String searchText) throws RestApiProfilesException;
+
+    public void initialSeed(List<ProfileDto> profilesDto) throws RestApiProfilesException;
 }

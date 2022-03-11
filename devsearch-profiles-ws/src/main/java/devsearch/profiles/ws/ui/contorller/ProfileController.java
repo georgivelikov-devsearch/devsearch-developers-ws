@@ -2,8 +2,11 @@ package devsearch.profiles.ws.ui.contorller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -121,5 +124,20 @@ public class ProfileController {
 	ProfileDto updatedProfile = profileService.updateProfile(profileDto);
 
 	return modelMapper.map(updatedProfile, ProfilePrivateResponse.class);
+    }
+
+    @PostMapping("/initial")
+    public ResponseEntity<String> initialSeed(@RequestBody List<ProfileRequest> profileRequests)
+	    throws RestApiProfilesException {
+
+	List<ProfileDto> profilesDto = new ArrayList<>();
+	for (ProfileRequest profileRequest : profileRequests) {
+	    ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
+	    profilesDto.add(profileDto);
+	}
+
+	profileService.initialSeed(profilesDto);
+
+	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 }

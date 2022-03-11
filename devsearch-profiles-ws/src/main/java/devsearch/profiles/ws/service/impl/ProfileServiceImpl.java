@@ -172,4 +172,15 @@ public class ProfileServiceImpl implements ProfileService {
 	return returnValue;
     }
 
+    @Override
+    public void initialSeed(List<ProfileDto> profilesDto) throws RestApiProfilesException {
+	List<ProfileEntity> profiles = new ArrayList<>();
+	for (ProfileDto profileDto : profilesDto) {
+	    ProfileEntity profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
+	    profiles.add(profileEntity);
+	}
+
+	profileRepository.saveAll(profiles);
+    }
+
 }
