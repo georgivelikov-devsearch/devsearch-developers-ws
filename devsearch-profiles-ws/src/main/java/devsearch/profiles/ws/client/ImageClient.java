@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import devsearch.profiles.ws.ui.model.request.ProfileImageRequest;
 import devsearch.profiles.ws.ui.model.response.ImageResponse;
 
-@FeignClient("clients-ws")
+@FeignClient("images-ws")
 public interface ImageClient {
 
-    @PostMapping("/profile")
+    @PostMapping("/images/profile")
     public ResponseEntity<ImageResponse> addProfileImage(@RequestBody ProfileImageRequest imageRequest);
 }
