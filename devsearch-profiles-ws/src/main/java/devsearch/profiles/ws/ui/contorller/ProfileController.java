@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import devsearch.profiles.ws.client.ImageClient;
 import devsearch.profiles.ws.exception.RestApiProfilesException;
 //import devsearch.profiles.ws.service.ImageService;
 import devsearch.profiles.ws.service.ProfileService;
 import devsearch.profiles.ws.shared.dto.ProfileDto;
 import devsearch.profiles.ws.shared.dto.ProfileListDto;
 import devsearch.profiles.ws.shared.utils.Mapper;
+import devsearch.profiles.ws.ui.model.request.ProfileImageRequest;
 import devsearch.profiles.ws.ui.model.request.ProfileRequest;
+import devsearch.profiles.ws.ui.model.response.ImageResponse;
 import devsearch.profiles.ws.ui.model.response.ProfilePrivateResponse;
 import devsearch.profiles.ws.ui.model.response.ProfilePublicListResponse;
 import devsearch.profiles.ws.ui.model.response.ProfilePublicResponse;
@@ -33,6 +36,9 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private ImageClient imageClient;
 
     @Autowired
     private Mapper modelMapper;
@@ -111,12 +117,16 @@ public class ProfileController {
     public ProfilePrivateResponse updateProfile(@RequestBody ProfileRequest profileRequest)
 	    throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
-	// TODO Add image micro service
-//	if (profileDto.isNewProfilePictureUpload()) {
-//	    String profilePictureUrl = imageService.saveImageAndReturnURL(profileDto.getProfilePictureBase64(),
-//		    profileDto.getProfilePrivateId());
-//	    profileDto.setProfilePictureUrl(profilePictureUrl);
-//	}
+
+	if (profileDto.isNewProfilePictureUpload()) {
+	    ProfileImageRequest imageRequest = new ProfileImageRequest();
+	    imageRequest.setProfilePictureBase64(profileDto.getProfilePictureBase64());
+	    imageRequest.setProfilePrivateId(profileDto.getProfilePrivateId());
+
+	    ResponseEntity<ImageResponse> imageResponse = imageClient.addProfileImage(imageRequest);
+	    String profilePictureUrl = imageResponse.getBody().getProfilePictureUrl();
+	    profileDto.setProfilePictureUrl(profilePictureUrl);
+	}
 
 	ProfileDto updatedProfile = profileService.updateProfile(profileDto);
 
