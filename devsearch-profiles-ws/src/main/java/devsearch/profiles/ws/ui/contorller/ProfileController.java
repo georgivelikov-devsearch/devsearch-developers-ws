@@ -31,9 +31,6 @@ import devsearch.profiles.ws.ui.model.response.ProfilePublicResponse;
 @RequestMapping("profiles")
 public class ProfileController {
 
-    // @Autowired
-    // private ImageService imageService;
-
     @Autowired
     private ProfileService profileService;
 
