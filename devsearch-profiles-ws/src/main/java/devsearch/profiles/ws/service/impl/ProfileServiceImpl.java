@@ -67,11 +67,6 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileDto createProfile(ProfileDto profileDto) throws RestApiProfilesException {
 	String userId = profileDto.getUserId();
-	// TODO this must remain in users service
-//	UserEntity userEntity = userRepository.findByUserId(userId);
-//	if (userEntity == null) {
-//	    throw new RestApiUsersException(ExceptionMessages.NO_USER_FOUND_FOR_THIS_USER_ID);
-//	}
 
 	ProfileEntity profileEntity = profileRepository.findByUserId(userId);
 	if (profileEntity != null) {
