@@ -11,6 +11,8 @@ import devsearch.profiles.ws.ui.model.response.ImageResponse;
 @FeignClient("images-ws")
 public interface ImageClient {
 
+    String x;
+
     @PostMapping("/images/profile")
     public ResponseEntity<ImageResponse> addProfileImage(@RequestBody ProfileImageRequest imageRequest);
 }
