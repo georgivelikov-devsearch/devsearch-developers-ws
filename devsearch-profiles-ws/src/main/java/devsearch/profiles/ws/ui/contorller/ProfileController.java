@@ -95,7 +95,7 @@ public class ProfileController {
 	return response;
     }
 
-    @PostMapping
+    @PostMapping(path = "/{username}")
     public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 	ProfileDto createdProfile = profileService.createProfile(profileDto);
@@ -103,7 +103,7 @@ public class ProfileController {
 	return modelMapper.map(createdProfile, ProfileResponse.class);
     }
 
-    @PutMapping
+    @PutMapping(path = "/{username}")
     public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 
@@ -136,4 +136,6 @@ public class ProfileController {
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
+
+    // TODO add delete mapping
 }
