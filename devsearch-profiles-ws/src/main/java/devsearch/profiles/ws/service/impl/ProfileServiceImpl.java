@@ -33,8 +33,8 @@ public class ProfileServiceImpl implements ProfileService {
     private Utils utils;
 
     @Override
-    public ProfileDto getProfileByProfilePrivateId(String profilePrivateId) throws RestApiProfilesException {
-	ProfileEntity profileEntity = profileRepository.findByProfilePrivateId(profilePrivateId);
+    public ProfileDto getProfileByProfileId(String profileId) throws RestApiProfilesException {
+	ProfileEntity profileEntity = profileRepository.findByProfileId(profileId);
 
 	if (profileEntity == null) {
 	    throw new RestApiProfilesException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
@@ -44,19 +44,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileDto getProfileByProfilePublicId(String profilePublicId) throws RestApiProfilesException {
-	ProfileEntity profileEntity = profileRepository.findByProfilePublicId(profilePublicId);
-
-	if (profileEntity == null) {
-	    throw new RestApiProfilesException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
-	}
-
-	return modelMapper.map(profileEntity, ProfileDto.class);
-    }
-
-    @Override
-    public ProfileDto getProfileByUserId(String userId) throws RestApiProfilesException {
-	ProfileEntity profileEntity = profileRepository.findByUserId(userId);
+    public ProfileDto getProfileByUsername(String username) throws RestApiProfilesException {
+	ProfileEntity profileEntity = profileRepository.findByUsername(username);
 	if (profileEntity == null) {
 	    throw new RestApiProfilesException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
 	}
@@ -66,17 +55,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto createProfile(ProfileDto profileDto) throws RestApiProfilesException {
-	String userId = profileDto.getUserId();
+	String username = profileDto.getUsername();
 
-	ProfileEntity profileEntity = profileRepository.findByUserId(userId);
+	ProfileEntity profileEntity = profileRepository.findByUsername(username);
 	if (profileEntity != null) {
 	    throw new RestApiProfilesException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER);
 	}
 
-	profileDto.setProfilePrivateId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
-	profileDto.setProfilePublicId(utils.generatePublicId(AppConstants.PUBLIC_ID_LENGTH));
-	profileDto.setUserId(userId);
-	profileDto.setDisplayUsername(profileDto.getDisplayUsername());
+	profileDto.setProfileId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
+	profileDto.setUsername(username);
 
 	profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
 
@@ -92,7 +79,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto updateProfile(ProfileDto profileDto) throws RestApiProfilesException {
-	ProfileEntity profileEntity = profileRepository.findByProfilePrivateId(profileDto.getProfilePrivateId());
+	ProfileEntity profileEntity = profileRepository.findByProfileId(profileDto.getProfileId());
 	if (profileEntity == null) {
 	    throw new RestApiProfilesException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
 	}
@@ -127,7 +114,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void deleteProfile(String profileId) throws RestApiProfilesException {
 	// Check if underlying user is deleted?
-	ProfileEntity profileEntity = profileRepository.findByProfilePrivateId(profileId);
+	ProfileEntity profileEntity = profileRepository.findByProfileId(profileId);
 	if (profileEntity == null) {
 	    throw new RestApiProfilesException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
 	}
@@ -141,10 +128,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileListDto getPublicProfiles(int page, int limit, String searchText) throws RestApiProfilesException {
+    public ProfileListDto getProfiles(int page, int limit, String searchText) throws RestApiProfilesException {
 	ProfileListDto returnValue = new ProfileListDto();
 	Pageable pageableRequest = PageRequest.of(page, limit);
 	Page<ProfileEntity> profileListPage = null;
+
 	// TODO refactor
 	if (searchText != null && !searchText.equals("")) {
 	    profileListPage = profileRepository.findAllByText(pageableRequest, searchText);

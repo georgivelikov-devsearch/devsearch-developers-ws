@@ -20,13 +20,11 @@ public class ProfileEntity implements Serializable {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String profilePrivateId;
+    private String profileId;
 
     @Column(nullable = false, unique = true)
-    private String profilePublicId;
-
-    @Column(nullable = false, unique = true)
-    private String userId;
+    @Size(min = 1, max = 50)
+    private String username;
 
     @Column(nullable = false)
     @Size(min = 1, max = 50)
@@ -35,10 +33,6 @@ public class ProfileEntity implements Serializable {
     @Column(nullable = false)
     @Size(min = 1, max = 50)
     private String lastName;
-
-    @Column(nullable = false)
-    @Size(min = 1, max = 50)
-    private String displayUsername;
 
     @Column(nullable = true, length = 50)
     private String contactEmail;
@@ -73,9 +67,6 @@ public class ProfileEntity implements Serializable {
     @Column(nullable = true, length = 200)
     private String profilePictureUrl;
 
-    @Column
-    private boolean adminProfile;
-
     public long getId() {
 	return id;
     }
@@ -84,28 +75,20 @@ public class ProfileEntity implements Serializable {
 	this.id = id;
     }
 
-    public String getProfilePrivateId() {
-	return profilePrivateId;
+    public String getProfileId() {
+	return profileId;
     }
 
-    public void setProfilePrivateId(String profilePrivateId) {
-	this.profilePrivateId = profilePrivateId;
+    public void setProfileId(String profileId) {
+	this.profileId = profileId;
     }
 
-    public String getProfilePublicId() {
-	return profilePublicId;
+    public String getUsername() {
+	return username;
     }
 
-    public void setProfilePublicId(String profilePublicId) {
-	this.profilePublicId = profilePublicId;
-    }
-
-    public String getUserId() {
-	return userId;
-    }
-
-    public void setUserId(String userId) {
-	this.userId = userId;
+    public void setUsername(String username) {
+	this.username = username;
     }
 
     public String getFirstName() {
@@ -122,14 +105,6 @@ public class ProfileEntity implements Serializable {
 
     public void setLastName(String lastName) {
 	this.lastName = lastName;
-    }
-
-    public String getDisplayUsername() {
-	return displayUsername;
-    }
-
-    public void setDisplayUsername(String displayUsername) {
-	this.displayUsername = displayUsername;
     }
 
     public String getContactEmail() {

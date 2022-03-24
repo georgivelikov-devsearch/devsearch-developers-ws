@@ -26,9 +26,9 @@ import devsearch.profiles.ws.shared.utils.Mapper;
 import devsearch.profiles.ws.ui.model.request.ProfileImageRequest;
 import devsearch.profiles.ws.ui.model.request.ProfileRequest;
 import devsearch.profiles.ws.ui.model.response.ImageResponse;
-import devsearch.profiles.ws.ui.model.response.ProfilePrivateResponse;
-import devsearch.profiles.ws.ui.model.response.ProfilePublicListResponse;
+import devsearch.profiles.ws.ui.model.response.ProfileListResponse;
 import devsearch.profiles.ws.ui.model.response.ProfilePublicResponse;
+import devsearch.profiles.ws.ui.model.response.ProfileResponse;
 
 @RestController
 @RequestMapping("profiles")
@@ -48,33 +48,23 @@ public class ProfileController {
 	return "ProfileController is working!";
     }
 
-    @GetMapping(path = "/user/{userId}")
-    public ProfilePrivateResponse getProfileByUserId(@PathVariable String userId) throws RestApiProfilesException {
-	ProfileDto profileDto = profileService.getProfileByUserId(userId);
+    @GetMapping(path = "/{username}")
+    public ProfileResponse getProfile(@PathVariable String username) throws RestApiProfilesException {
+	ProfileDto profileDto = profileService.getProfileByUsername(username);
 
-	return modelMapper.map(profileDto, ProfilePrivateResponse.class);
+	return modelMapper.map(profileDto, ProfileResponse.class);
     }
 
-    @GetMapping(path = "/private/{profilePrivateId}")
-    public ProfilePrivateResponse getProfileByPrivateId(@PathVariable String profilePrivateId)
-	    throws RestApiProfilesException {
-	ProfileDto profileDto = profileService.getProfileByProfilePrivateId(profilePrivateId);
-
-	return modelMapper.map(profileDto, ProfilePrivateResponse.class);
-    }
-
-    @GetMapping(path = "/public/{profilePublicId}")
-    public ProfilePublicResponse getProfileByPublicId(@PathVariable String profilePublicId)
-	    throws RestApiProfilesException {
-	ProfileDto profileDto = profileService.getProfileByProfilePublicId(profilePublicId);
+    @GetMapping(path = "/public/{username}")
+    public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiProfilesException {
+	ProfileDto profileDto = profileService.getProfileByUsername(username);
 
 	return modelMapper.map(profileDto, ProfilePublicResponse.class);
     }
 
-    @GetMapping(path = "/public")
-    public ProfilePublicListResponse getPublicProfiles(@RequestParam(value = "page", defaultValue = "1") int page,
+    @GetMapping()
+    public ProfileListResponse getProfiles(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
-	    @RequestParam(value = "userId", defaultValue = "") String userId,
 	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws RestApiProfilesException {
 
 	// In the Repository implementation pagination starts with '0', but in UI
@@ -84,12 +74,13 @@ public class ProfileController {
 	    page -= 1;
 	}
 
-	ProfileListDto profiles = profileService.getPublicProfiles(page, limit, searchText);
+	ProfileListDto profiles = profileService.getProfiles(page, limit, searchText);
 	Collection<ProfilePublicResponse> responseProfiles = new ArrayList<ProfilePublicResponse>();
+	String username = "Dummy";
 	boolean senderFound = false;
 	for (ProfileDto profile : profiles.getProfiles()) {
 	    ProfilePublicResponse publicProfile = modelMapper.map(profile, ProfilePublicResponse.class);
-	    if (!senderFound && profile.getUserId().equals(userId)) {
+	    if (!senderFound && profile.getUsername().equals(username)) {
 		publicProfile.setSender(true);
 		senderFound = true;
 	    }
@@ -97,7 +88,7 @@ public class ProfileController {
 	    responseProfiles.add(publicProfile);
 	}
 
-	ProfilePublicListResponse response = new ProfilePublicListResponse();
+	ProfileListResponse response = new ProfileListResponse();
 	response.setTotalPages(profiles.getTotalPages());
 	response.setProfiles(responseProfiles);
 
@@ -105,23 +96,21 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ProfilePrivateResponse createProfile(@RequestBody ProfileRequest profileRequest)
-	    throws RestApiProfilesException {
+    public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 	ProfileDto createdProfile = profileService.createProfile(profileDto);
 
-	return modelMapper.map(createdProfile, ProfilePrivateResponse.class);
+	return modelMapper.map(createdProfile, ProfileResponse.class);
     }
 
     @PutMapping
-    public ProfilePrivateResponse updateProfile(@RequestBody ProfileRequest profileRequest)
-	    throws RestApiProfilesException {
+    public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 
 	if (profileDto.isNewProfilePictureUpload()) {
 	    ProfileImageRequest imageRequest = new ProfileImageRequest();
 	    imageRequest.setProfilePictureBase64(profileDto.getProfilePictureBase64());
-	    imageRequest.setProfilePrivateId(profileDto.getProfilePrivateId());
+	    imageRequest.setProfileId(profileDto.getProfileId());
 
 	    ResponseEntity<ImageResponse> imageResponse = imageClient.addProfileImage(imageRequest);
 	    String profilePictureUrl = imageResponse.getBody().getProfilePictureUrl();
@@ -130,7 +119,7 @@ public class ProfileController {
 
 	ProfileDto updatedProfile = profileService.updateProfile(profileDto);
 
-	return modelMapper.map(updatedProfile, ProfilePrivateResponse.class);
+	return modelMapper.map(updatedProfile, ProfileResponse.class);
     }
 
     @PostMapping("/initial")

@@ -3,7 +3,7 @@ package devsearch.profiles.ws.ui.model.request;
 public class ProfileImageRequest {
 
     private String profilePictureBase64;
-    private String profilePrivateId;
+    private String profileId;
 
     public String getProfilePictureBase64() {
 	return profilePictureBase64;
@@ -13,11 +13,11 @@ public class ProfileImageRequest {
 	this.profilePictureBase64 = profilePictureBase64;
     }
 
-    public String getProfilePrivateId() {
-	return profilePrivateId;
+    public String getProfileId() {
+	return profileId;
     }
 
-    public void setProfilePrivateId(String profilePrivateId) {
-	this.profilePrivateId = profilePrivateId;
+    public void setProfileId(String profileId) {
+	this.profileId = profileId;
     }
 }

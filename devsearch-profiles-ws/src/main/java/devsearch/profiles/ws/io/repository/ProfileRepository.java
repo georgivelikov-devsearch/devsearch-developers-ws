@@ -12,13 +12,9 @@ import devsearch.profiles.ws.io.entity.ProfileEntity;
 @Repository
 public interface ProfileRepository extends PagingAndSortingRepository<ProfileEntity, Long> {
 
-    public ProfileEntity findByProfilePrivateId(String profilePrivateId);
+    public ProfileEntity findByProfileId(String profileId);
 
-    public ProfileEntity findByProfilePublicId(String profilePublicId);
-
-    @Transactional
-    @Query(value = "SELECT p FROM ProfileEntity p where p.userId=:userId")
-    public ProfileEntity findByUserId(String userId);
+    public ProfileEntity findByUsername(String username);
 
     @Transactional
     @Query(value = "SELECT p FROM ProfileEntity p where (p.firstName LIKE %:searchText% OR p.lastName LIKE %:searchText%)")

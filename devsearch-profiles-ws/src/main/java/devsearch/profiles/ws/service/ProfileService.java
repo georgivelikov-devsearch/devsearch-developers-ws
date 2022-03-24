@@ -8,11 +8,9 @@ import devsearch.profiles.ws.shared.dto.ProfileListDto;
 
 public interface ProfileService {
 
-    public ProfileDto getProfileByProfilePrivateId(String profilePrivateId) throws RestApiProfilesException;
+    public ProfileDto getProfileByProfileId(String profileId) throws RestApiProfilesException;
 
-    public ProfileDto getProfileByProfilePublicId(String profilePublicId) throws RestApiProfilesException;
-
-    public ProfileDto getProfileByUserId(String userId) throws RestApiProfilesException;
+    public ProfileDto getProfileByUsername(String username) throws RestApiProfilesException;
 
     public ProfileDto createProfile(ProfileDto profileDto) throws RestApiProfilesException;
 
@@ -20,7 +18,7 @@ public interface ProfileService {
 
     public void deleteProfile(String profileId) throws RestApiProfilesException;
 
-    public ProfileListDto getPublicProfiles(int page, int limit, String searchText) throws RestApiProfilesException;
+    public ProfileListDto getProfiles(int page, int limit, String searchText) throws RestApiProfilesException;
 
     public void initialSeed(List<ProfileDto> profilesDto) throws RestApiProfilesException;
 }

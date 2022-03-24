@@ -2,10 +2,8 @@ package devsearch.profiles.ws.shared.dto;
 
 public class ProfileDto {
 
-    private String profilePrivateId;
-    private String profilePublicId;
-    private String userId;
-    private String displayUsername;
+    private String profileId;
+    private String username;
     private String firstName;
     private String lastName;
     private String contactEmail;
@@ -22,36 +20,20 @@ public class ProfileDto {
     private String profilePictureBase64;
     private boolean newProfilePictureUpload;
 
-    public String getProfilePrivateId() {
-	return profilePrivateId;
+    public String getProfileId() {
+	return profileId;
     }
 
-    public void setProfilePrivateId(String profilePrivateId) {
-	this.profilePrivateId = profilePrivateId;
+    public void setProfileId(String profileId) {
+	this.profileId = profileId;
     }
 
-    public String getProfilePublicId() {
-	return profilePublicId;
+    public String getUsername() {
+	return username;
     }
 
-    public void setProfilePublicId(String profilePublicId) {
-	this.profilePublicId = profilePublicId;
-    }
-
-    public String getUserId() {
-	return userId;
-    }
-
-    public void setUserId(String userId) {
-	this.userId = userId;
-    }
-
-    public String getDisplayUsername() {
-	return displayUsername;
-    }
-
-    public void setDisplayUsername(String displayUsername) {
-	this.displayUsername = displayUsername;
+    public void setUsername(String username) {
+	this.username = username;
     }
 
     public String getFirstName() {
