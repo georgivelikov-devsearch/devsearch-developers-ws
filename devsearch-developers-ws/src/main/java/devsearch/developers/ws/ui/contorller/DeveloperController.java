@@ -32,8 +32,8 @@ import devsearch.developers.ws.ui.model.response.DeveloperResponse;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
 
 @RestController
-@RequestMapping("profiles")
-public class ProfileController {
+@RequestMapping("developers")
+public class DeveloperController {
 
     @Autowired
     private DeveloperService developerService;
