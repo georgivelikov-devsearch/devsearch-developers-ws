@@ -10,8 +10,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "profiles")
-public class ProfileEntity implements Serializable {
+@Table(name = "developers")
+public class DeveloperEntity implements Serializable {
 
     private static final long serialVersionUID = -4809528528475089777L;
 
@@ -20,7 +20,7 @@ public class ProfileEntity implements Serializable {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String profileId;
+    private String developerId;
 
     @Column(nullable = false, unique = true)
     @Size(min = 1, max = 50)
@@ -75,12 +75,12 @@ public class ProfileEntity implements Serializable {
 	this.id = id;
     }
 
-    public String getProfileId() {
-	return profileId;
+    public String getDeveloperId() {
+	return developerId;
     }
 
-    public void setProfileId(String profileId) {
-	this.profileId = profileId;
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 
     public String getUsername() {

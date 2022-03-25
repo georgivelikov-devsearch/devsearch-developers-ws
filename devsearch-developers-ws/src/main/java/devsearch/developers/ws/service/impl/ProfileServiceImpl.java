@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
-import devsearch.developers.ws.io.entity.ProfileEntity;
-import devsearch.developers.ws.io.repository.ProfileRepository;
+import devsearch.developers.ws.io.entity.DeveloperEntity;
+import devsearch.developers.ws.io.repository.DeveloperRepository;
 import devsearch.developers.ws.service.ProfileService;
 import devsearch.developers.ws.shared.dto.ProfileDto;
 import devsearch.developers.ws.shared.dto.ProfileListDto;
@@ -24,7 +24,7 @@ import devsearch.developers.ws.shared.utils.Utils;
 public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private DeveloperRepository profileRepository;
 
     @Autowired
     private Mapper modelMapper;
@@ -34,7 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto getProfileByProfileId(String profileId) throws RestApiDevelopersException {
-	ProfileEntity profileEntity = profileRepository.findByProfileId(profileId);
+	DeveloperEntity profileEntity = profileRepository.findByProfileId(profileId);
 
 	if (profileEntity == null) {
 	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
@@ -45,7 +45,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto getProfileByUsername(String username) throws RestApiDevelopersException {
-	ProfileEntity profileEntity = profileRepository.findByUsername(username);
+	DeveloperEntity profileEntity = profileRepository.findByUsername(username);
 	if (profileEntity == null) {
 	    throw new RestApiDevelopersException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
 	}
@@ -57,7 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto createProfile(ProfileDto profileDto) throws RestApiDevelopersException {
 	String username = profileDto.getUsername();
 
-	ProfileEntity profileEntity = profileRepository.findByUsername(username);
+	DeveloperEntity profileEntity = profileRepository.findByUsername(username);
 	if (profileEntity != null) {
 	    throw new RestApiDevelopersException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER);
 	}
@@ -65,9 +65,9 @@ public class ProfileServiceImpl implements ProfileService {
 	profileDto.setProfileId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
 	profileDto.setUsername(username);
 
-	profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
+	profileEntity = modelMapper.map(profileDto, DeveloperEntity.class);
 
-	ProfileEntity storedProfileEntity = null;
+	DeveloperEntity storedProfileEntity = null;
 	try {
 	    storedProfileEntity = profileRepository.save(profileEntity);
 	} catch (Exception ex) {
@@ -79,7 +79,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto updateProfile(ProfileDto profileDto) throws RestApiDevelopersException {
-	ProfileEntity profileEntity = profileRepository.findByUsername(profileDto.getUsername());
+	DeveloperEntity profileEntity = profileRepository.findByUsername(profileDto.getUsername());
 	if (profileEntity == null) {
 	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
 	}
@@ -100,7 +100,7 @@ public class ProfileServiceImpl implements ProfileService {
 	    profileEntity.setProfilePictureUrl(profileDto.getProfilePictureUrl());
 	}
 
-	ProfileEntity updatedProfileEntity = null;
+	DeveloperEntity updatedProfileEntity = null;
 	try {
 	    updatedProfileEntity = profileRepository.save(profileEntity);
 	} catch (Exception ex) {
@@ -114,7 +114,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void deleteProfile(String profileId) throws RestApiDevelopersException {
 	// Check if underlying user is deleted?
-	ProfileEntity profileEntity = profileRepository.findByProfileId(profileId);
+	DeveloperEntity profileEntity = profileRepository.findByProfileId(profileId);
 	if (profileEntity == null) {
 	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
 	}
@@ -131,7 +131,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileListDto getProfiles(int page, int limit, String searchText) throws RestApiDevelopersException {
 	ProfileListDto returnValue = new ProfileListDto();
 	Pageable pageableRequest = PageRequest.of(page, limit);
-	Page<ProfileEntity> profileListPage = null;
+	Page<DeveloperEntity> profileListPage = null;
 
 	// TODO refactor
 	if (searchText != null && !searchText.equals("")) {
@@ -140,11 +140,11 @@ public class ProfileServiceImpl implements ProfileService {
 	    profileListPage = profileRepository.findAll(pageableRequest);
 	}
 
-	List<ProfileEntity> profiles = profileListPage.getContent();
+	List<DeveloperEntity> profiles = profileListPage.getContent();
 	int totalPages = profileListPage.getTotalPages();
 
 	List<ProfileDto> profileDtoList = new ArrayList<>();
-	for (ProfileEntity profileEntity : profiles) {
+	for (DeveloperEntity profileEntity : profiles) {
 	    ProfileDto profileDto = modelMapper.map(profileEntity, ProfileDto.class);
 	    profileDtoList.add(profileDto);
 	}
@@ -157,9 +157,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void initialSeed(List<ProfileDto> profilesDto) throws RestApiDevelopersException {
-	List<ProfileEntity> profiles = new ArrayList<>();
+	List<DeveloperEntity> profiles = new ArrayList<>();
 	for (ProfileDto profileDto : profilesDto) {
-	    ProfileEntity profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
+	    DeveloperEntity profileEntity = modelMapper.map(profileDto, DeveloperEntity.class);
 	    profiles.add(profileEntity);
 	}
 
