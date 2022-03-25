@@ -24,8 +24,8 @@ import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
 import devsearch.developers.ws.shared.utils.Mapper;
-import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.request.DeveloperImageRequest;
+import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperPublicResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperResponse;
@@ -135,7 +135,7 @@ public class DeveloperController {
 	    imageRequest.setDeveloperId(developerDto.getDeveloperId());
 	    imageRequest.setDeveloperPictureBase64(developerDto.getProfilePictureBase64());
 
-	    ResponseEntity<ImageResponse> imageResponse = imageClient.addProfileImage(imageRequest);
+	    ResponseEntity<ImageResponse> imageResponse = imageClient.addDeveloperImage(imageRequest);
 	    String profilePictureUrl = imageResponse.getBody().getDeveloperPictureUrl();
 	    developerDto.setProfilePictureUrl(profilePictureUrl);
 	}
