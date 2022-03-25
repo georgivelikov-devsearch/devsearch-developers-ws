@@ -7,8 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,19 +51,18 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/user/{username}")
-    public ProfileResponse getProfile(@PathVariable String username) throws RestApiProfilesException {
+    public ProfileResponse getProfile(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
+	    throws RestApiProfilesException {
 	ProfileDto profileDto = null;
 
 	try {
 	    profileDto = profileService.getProfileByUsername(username);
 	} catch (RestApiProfilesException ex) {
 	    // Profile for the currently logged in user does not exist. Create new profile.
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    Jwt token = (Jwt) authentication.getPrincipal();
-	    String preferredUsername = token.getClaimAsString("preferred_username");
-	    String firstName = token.getClaimAsString("given_name");
-	    String lastName = token.getClaimAsString("family_name");
-	    String contactEmail = token.getClaimAsString("email");
+	    String preferredUsername = jwt.getClaimAsString("preferred_username");
+	    String firstName = jwt.getClaimAsString("given_name");
+	    String lastName = jwt.getClaimAsString("family_name");
+	    String contactEmail = jwt.getClaimAsString("email");
 
 	    profileDto = new ProfileDto();
 	    profileDto.setUsername(preferredUsername);
