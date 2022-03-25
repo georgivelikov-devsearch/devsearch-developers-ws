@@ -17,6 +17,6 @@ public interface DeveloperRepository extends PagingAndSortingRepository<Develope
     public DeveloperEntity findByUsername(String username);
 
     @Transactional
-    @Query(value = "SELECT d FROM DeveloperEntity d where (pd.firstName LIKE %:searchText% OR d.lastName LIKE %:searchText%)")
+    @Query(value = "SELECT d FROM DeveloperEntity d where (d.firstName LIKE %:searchText% OR d.lastName LIKE %:searchText%)")
     Page<DeveloperEntity> findAllByText(Pageable pageable, String searchText);
 }
