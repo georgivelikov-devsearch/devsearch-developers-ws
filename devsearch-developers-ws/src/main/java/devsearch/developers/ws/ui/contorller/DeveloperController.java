@@ -46,7 +46,7 @@ public class DeveloperController {
 
     @GetMapping(path = "/status")
     public String status() {
-	return "ProfileController is working!";
+	return "DeveloperController is working!";
     }
 
     @GetMapping(path = "/user/{username}")
