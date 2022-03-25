@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import devsearch.developers.ws.client.ImageClient;
-import devsearch.developers.ws.exception.RestApiProfilesException;
+import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.service.ProfileService;
 import devsearch.developers.ws.shared.dto.ProfileDto;
 import devsearch.developers.ws.shared.dto.ProfileListDto;
@@ -51,12 +51,12 @@ public class ProfileController {
 
     @GetMapping(path = "/user/{username}")
     public ProfileResponse getProfile(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
-	    throws RestApiProfilesException {
+	    throws RestApiDevelopersException {
 	ProfileDto profileDto = null;
 
 	try {
 	    profileDto = profileService.getProfileByUsername(username);
-	} catch (RestApiProfilesException ex) {
+	} catch (RestApiDevelopersException ex) {
 	    // Profile for the currently logged in user does not exist. Create new profile.
 	    String preferredUsername = jwt.getClaimAsString("preferred_username");
 	    String firstName = jwt.getClaimAsString("given_name");
@@ -75,7 +75,7 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/public/user/{username}")
-    public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiProfilesException {
+    public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiDevelopersException {
 	ProfileDto profileDto = profileService.getProfileByUsername(username);
 
 	return modelMapper.map(profileDto, ProfilePublicResponse.class);
@@ -84,7 +84,7 @@ public class ProfileController {
     @GetMapping("/public/all")
     public ProfileListResponse getProfiles(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
-	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws RestApiProfilesException {
+	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws RestApiDevelopersException {
 
 	// In the Repository implementation pagination starts with '0', but in UI
 	// usually pages start from 1, 2, 3 etc. So UI will send the number of the page,
@@ -115,7 +115,7 @@ public class ProfileController {
     }
 
     @PostMapping(path = "/user/{username}")
-    public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
+    public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 	ProfileDto createdProfile = profileService.createProfile(profileDto);
 
@@ -123,7 +123,7 @@ public class ProfileController {
     }
 
     @PutMapping(path = "/user/{username}")
-    public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
+    public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 
 	if (profileDto.isNewProfilePictureUpload()) {
@@ -143,7 +143,7 @@ public class ProfileController {
 
     @PostMapping("/initial")
     public ResponseEntity<String> initialSeed(@RequestBody List<ProfileRequest> profileRequests)
-	    throws RestApiProfilesException {
+	    throws RestApiDevelopersException {
 
 	List<ProfileDto> profilesDto = new ArrayList<>();
 	for (ProfileRequest profileRequest : profileRequests) {

@@ -17,8 +17,8 @@ import devsearch.developers.ws.shared.utils.AppConstants;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(value = RestApiProfilesException.class)
-    public ResponseEntity<Object> handleRestApiException(RestApiProfilesException ex, WebRequest request) {
+    @ExceptionHandler(value = RestApiDevelopersException.class)
+    public ResponseEntity<Object> handleRestApiException(RestApiDevelopersException ex, WebRequest request) {
 	DateFormat df = new SimpleDateFormat(AppConstants.DATE_FORMAT);
 	String dateStr = df.format(new Date());
 	ExceptionMessageRest exception = new ExceptionMessageRest(dateStr, getPath(request), getMethod(request),

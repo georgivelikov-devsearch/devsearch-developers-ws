@@ -1,27 +1,27 @@
 package devsearch.developers.ws.exception;
 
-public class RestApiProfilesException extends Exception {
+public class RestApiDevelopersException extends Exception {
 
     private static final long serialVersionUID = 4561331221134856278L;
     private String sourceExceptionMessage;
     private String exceptionCode;
 
-    public RestApiProfilesException(String message) {
+    public RestApiDevelopersException(String message) {
 	super(message);
     }
 
-    public RestApiProfilesException(ExceptionMessages message) {
+    public RestApiDevelopersException(ExceptionMessages message) {
 	super(message.getExceptionMessage());
 	this.exceptionCode = message.getExceptionCode();
     }
 
-    public RestApiProfilesException(ExceptionMessages message, String sourceExceptionMessage) {
+    public RestApiDevelopersException(ExceptionMessages message, String sourceExceptionMessage) {
 	super(message.getExceptionMessage());
 	this.exceptionCode = message.getExceptionCode();
 	this.sourceExceptionMessage = sourceExceptionMessage;
     }
 
-    public RestApiProfilesException(String message, String exceptionCode, String sourceExceptionMessage) {
+    public RestApiDevelopersException(String message, String exceptionCode, String sourceExceptionMessage) {
 	super(message);
 	this.exceptionCode = exceptionCode;
 	this.sourceExceptionMessage = sourceExceptionMessage;
