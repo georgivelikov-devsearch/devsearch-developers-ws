@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class DevsearchProfilesWsApplication {
+public class DevsearchDevelopersWsApplication {
 
     public static void main(String[] args) {
-	SpringApplication.run(DevsearchProfilesWsApplication.class, args);
+	SpringApplication.run(DevsearchDevelopersWsApplication.class, args);
     }
 
 }

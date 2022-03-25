@@ -1,6 +1,6 @@
 package devsearch.developers.ws.ui.model.request;
 
-public class ProfileImageRequest {
+public class ImageRequest {
 
     private String profilePictureBase64;
     private String profileId;

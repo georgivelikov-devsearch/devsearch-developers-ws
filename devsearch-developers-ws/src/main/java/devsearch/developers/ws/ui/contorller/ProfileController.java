@@ -24,7 +24,7 @@ import devsearch.developers.ws.service.ProfileService;
 import devsearch.developers.ws.shared.dto.ProfileDto;
 import devsearch.developers.ws.shared.dto.ProfileListDto;
 import devsearch.developers.ws.shared.utils.Mapper;
-import devsearch.developers.ws.ui.model.request.ProfileImageRequest;
+import devsearch.developers.ws.ui.model.request.ImageRequest;
 import devsearch.developers.ws.ui.model.request.ProfileRequest;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
 import devsearch.developers.ws.ui.model.response.ProfileListResponse;
@@ -127,7 +127,7 @@ public class ProfileController {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 
 	if (profileDto.isNewProfilePictureUpload()) {
-	    ProfileImageRequest imageRequest = new ProfileImageRequest();
+	    ImageRequest imageRequest = new ImageRequest();
 	    imageRequest.setProfilePictureBase64(profileDto.getProfilePictureBase64());
 	    imageRequest.setProfileId(profileDto.getProfileId());
 
