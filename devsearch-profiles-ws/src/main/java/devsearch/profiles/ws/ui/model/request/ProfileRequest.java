@@ -23,7 +23,7 @@ public class ProfileRequest {
 	return profileId;
     }
 
-    public void setProfilePrivateId(String profileId) {
+    public void setProfileId(String profileId) {
 	this.profileId = profileId;
     }
 

@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,21 +51,40 @@ public class ProfileController {
 	return "ProfileController is working!";
     }
 
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/user/{username}")
     public ProfileResponse getProfile(@PathVariable String username) throws RestApiProfilesException {
-	ProfileDto profileDto = profileService.getProfileByUsername(username);
+	ProfileDto profileDto = null;
+
+	try {
+	    profileDto = profileService.getProfileByUsername(username);
+	} catch (RestApiProfilesException ex) {
+	    // Profile for the currently logged in user does not exist. Create new profile.
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    Jwt token = (Jwt) authentication.getPrincipal();
+	    String preferredUsername = token.getClaimAsString("preferred_username");
+	    String firstName = token.getClaimAsString("given_name");
+	    String lastName = token.getClaimAsString("family_name");
+	    String contactEmail = token.getClaimAsString("email");
+
+	    profileDto = new ProfileDto();
+	    profileDto.setUsername(preferredUsername);
+	    profileDto.setFirstName(firstName);
+	    profileDto.setLastName(lastName);
+	    profileDto.setContactEmail(contactEmail);
+	    profileDto = profileService.createProfile(profileDto);
+	}
 
 	return modelMapper.map(profileDto, ProfileResponse.class);
     }
 
-    @GetMapping(path = "/public/{username}")
+    @GetMapping(path = "/public/user/{username}")
     public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiProfilesException {
 	ProfileDto profileDto = profileService.getProfileByUsername(username);
 
 	return modelMapper.map(profileDto, ProfilePublicResponse.class);
     }
 
-    @GetMapping()
+    @GetMapping("/public/all")
     public ProfileListResponse getProfiles(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
 	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws RestApiProfilesException {
@@ -95,7 +117,7 @@ public class ProfileController {
 	return response;
     }
 
-    @PostMapping(path = "/{username}")
+    @PostMapping(path = "/user/{username}")
     public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 	ProfileDto createdProfile = profileService.createProfile(profileDto);
@@ -103,7 +125,7 @@ public class ProfileController {
 	return modelMapper.map(createdProfile, ProfileResponse.class);
     }
 
-    @PutMapping(path = "/{username}")
+    @PutMapping(path = "/user/{username}")
     public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiProfilesException {
 	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
 

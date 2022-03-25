@@ -2,8 +2,8 @@ package devsearch.profiles.ws.ui.model.response;
 
 public class ProfilePublicResponse {
 
-    private String profilePublicId;
-    private String displayUsername;
+    private String profileId;
+    private String username;
     private String firstName;
     private String lastName;
     private String contactEmail;
@@ -20,19 +20,19 @@ public class ProfilePublicResponse {
     private boolean sender;
 
     public String getProfilePublicId() {
-	return profilePublicId;
+	return profileId;
     }
 
-    public void setProfilePublicId(String profilePublicId) {
-	this.profilePublicId = profilePublicId;
+    public void setProfileId(String profileId) {
+	this.profileId = profileId;
     }
 
-    public String getDisplayUsername() {
-	return displayUsername;
+    public String getUsername() {
+	return username;
     }
 
-    public void setDisplayUsername(String displayUsername) {
-	this.displayUsername = displayUsername;
+    public void setUsername(String username) {
+	this.username = username;
     }
 
     public String getFirstName() {

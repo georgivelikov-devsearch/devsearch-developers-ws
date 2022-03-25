@@ -79,7 +79,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto updateProfile(ProfileDto profileDto) throws RestApiProfilesException {
-	ProfileEntity profileEntity = profileRepository.findByProfileId(profileDto.getProfileId());
+	ProfileEntity profileEntity = profileRepository.findByUsername(profileDto.getUsername());
 	if (profileEntity == null) {
 	    throw new RestApiProfilesException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
 	}
