@@ -1,8 +1,8 @@
 package devsearch.developers.ws.ui.model.response;
 
-public class ProfileResponse {
+public class DeveloperPublicResponse {
 
-    private String profileId;
+    private String developerId;
     private String username;
     private String firstName;
     private String lastName;
@@ -17,13 +17,14 @@ public class ProfileResponse {
     private String locationCity;
     private String locationCountry;
     private String profilePictureUrl;
+    private boolean sender;
 
-    public String getProfileId() {
-	return profileId;
+    public String getDeveloperPublicId() {
+	return developerId;
     }
 
-    public void setProfileId(String profileId) {
-	this.profileId = profileId;
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 
     public String getUsername() {
@@ -136,5 +137,13 @@ public class ProfileResponse {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
 	this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public boolean isSender() {
+	return sender;
+    }
+
+    public void setSender(boolean sender) {
+	this.sender = sender;
     }
 }

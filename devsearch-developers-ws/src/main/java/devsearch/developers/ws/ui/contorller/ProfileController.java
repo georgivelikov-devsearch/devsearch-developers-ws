@@ -24,19 +24,19 @@ import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
 import devsearch.developers.ws.shared.utils.Mapper;
+import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.request.ImageRequest;
-import devsearch.developers.ws.ui.model.request.ProfileRequest;
+import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
+import devsearch.developers.ws.ui.model.response.DeveloperPublicResponse;
+import devsearch.developers.ws.ui.model.response.DeveloperResponse;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
-import devsearch.developers.ws.ui.model.response.ProfileListResponse;
-import devsearch.developers.ws.ui.model.response.ProfilePublicResponse;
-import devsearch.developers.ws.ui.model.response.ProfileResponse;
 
 @RestController
 @RequestMapping("profiles")
 public class ProfileController {
 
     @Autowired
-    private DeveloperService profileService;
+    private DeveloperService developerService;
 
     @Autowired
     private ImageClient imageClient;
@@ -50,12 +50,12 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/user/{username}")
-    public ProfileResponse getProfile(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
+    public DeveloperResponse getDeveloper(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
 	    throws RestApiDevelopersException {
-	DeveloperDto profileDto = null;
+	DeveloperDto developerDto = null;
 
 	try {
-	    profileDto = profileService.getProfileByUsername(username);
+	    developerDto = developerService.getDeveloperByUsername(username);
 	} catch (RestApiDevelopersException ex) {
 	    // Profile for the currently logged in user does not exist. Create new profile.
 	    String preferredUsername = jwt.getClaimAsString("preferred_username");
@@ -63,28 +63,29 @@ public class ProfileController {
 	    String lastName = jwt.getClaimAsString("family_name");
 	    String contactEmail = jwt.getClaimAsString("email");
 
-	    profileDto = new DeveloperDto();
-	    profileDto.setUsername(preferredUsername);
-	    profileDto.setFirstName(firstName);
-	    profileDto.setLastName(lastName);
-	    profileDto.setContactEmail(contactEmail);
-	    profileDto = profileService.createProfile(profileDto);
+	    developerDto = new DeveloperDto();
+	    developerDto.setUsername(preferredUsername);
+	    developerDto.setFirstName(firstName);
+	    developerDto.setLastName(lastName);
+	    developerDto.setContactEmail(contactEmail);
+	    developerDto = developerService.createDeveloper(developerDto);
 	}
 
-	return modelMapper.map(profileDto, ProfileResponse.class);
+	return modelMapper.map(developerDto, DeveloperResponse.class);
     }
 
     @GetMapping(path = "/public/user/{username}")
-    public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiDevelopersException {
-	DeveloperDto profileDto = profileService.getProfileByUsername(username);
+    public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws RestApiDevelopersException {
+	DeveloperDto profileDto = developerService.getDeveloperByUsername(username);
 
-	return modelMapper.map(profileDto, ProfilePublicResponse.class);
+	return modelMapper.map(profileDto, DeveloperPublicResponse.class);
     }
 
     @GetMapping("/public/all")
-    public ProfileListResponse getProfiles(@RequestParam(value = "page", defaultValue = "1") int page,
+    public DeveloperListResponse getDeveloper(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
-	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws RestApiDevelopersException {
+	    @RequestParam(value = "searchText", defaultValue = "") String searchText)
+	    throws RestApiDevelopersException {
 
 	// In the Repository implementation pagination starts with '0', but in UI
 	// usually pages start from 1, 2, 3 etc. So UI will send the number of the page,
@@ -93,65 +94,68 @@ public class ProfileController {
 	    page -= 1;
 	}
 
-	DeveloperListDto profiles = profileService.getProfiles(page, limit, searchText);
-	Collection<ProfilePublicResponse> responseProfiles = new ArrayList<ProfilePublicResponse>();
+	DeveloperListDto developers = developerService.getDevelopers(page, limit, searchText);
+	Collection<DeveloperPublicResponse> responseDevelopers = new ArrayList<DeveloperPublicResponse>();
+	// TODO fix this
 	String username = "Dummy";
 	boolean senderFound = false;
-	for (DeveloperDto profile : profiles.getProfiles()) {
-	    ProfilePublicResponse publicProfile = modelMapper.map(profile, ProfilePublicResponse.class);
-	    if (!senderFound && profile.getUsername().equals(username)) {
-		publicProfile.setSender(true);
+	for (DeveloperDto developer : developers.getDevelopers()) {
+	    DeveloperPublicResponse publicDeveloper = modelMapper.map(developer, DeveloperPublicResponse.class);
+	    if (!senderFound && developer.getUsername().equals(username)) {
+		publicDeveloper.setSender(true);
 		senderFound = true;
 	    }
 
-	    responseProfiles.add(publicProfile);
+	    responseDevelopers.add(publicDeveloper);
 	}
 
-	ProfileListResponse response = new ProfileListResponse();
-	response.setTotalPages(profiles.getTotalPages());
-	response.setProfiles(responseProfiles);
+	DeveloperListResponse response = new DeveloperListResponse();
+	response.setTotalPages(developers.getTotalPages());
+	response.setProfiles(responseDevelopers);
 
 	return response;
     }
 
     @PostMapping(path = "/user/{username}")
-    public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
-	DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
-	DeveloperDto createdProfile = profileService.createProfile(profileDto);
+    public DeveloperResponse createDeveloper(@RequestBody DeveloperRequest developerRequest)
+	    throws RestApiDevelopersException {
+	DeveloperDto developerDto = modelMapper.map(developerRequest, DeveloperDto.class);
+	DeveloperDto createdDeveloper = developerService.createDeveloper(developerDto);
 
-	return modelMapper.map(createdProfile, ProfileResponse.class);
+	return modelMapper.map(createdDeveloper, DeveloperResponse.class);
     }
 
     @PutMapping(path = "/user/{username}")
-    public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
-	DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
+    public DeveloperResponse updateDeveloper(@RequestBody DeveloperRequest developerRequest)
+	    throws RestApiDevelopersException {
+	DeveloperDto developerDto = modelMapper.map(developerRequest, DeveloperDto.class);
 
-	if (profileDto.isNewProfilePictureUpload()) {
+	if (developerDto.isNewProfilePictureUpload()) {
 	    ImageRequest imageRequest = new ImageRequest();
-	    imageRequest.setProfilePictureBase64(profileDto.getProfilePictureBase64());
-	    imageRequest.setProfileId(profileDto.getProfileId());
+	    imageRequest.setDeveloperId(developerDto.getDeveloperId());
+	    imageRequest.setDeveloperPictureBase64(developerDto.getProfilePictureBase64());
 
 	    ResponseEntity<ImageResponse> imageResponse = imageClient.addProfileImage(imageRequest);
-	    String profilePictureUrl = imageResponse.getBody().getProfilePictureUrl();
-	    profileDto.setProfilePictureUrl(profilePictureUrl);
+	    String profilePictureUrl = imageResponse.getBody().getDeveloperPictureUrl();
+	    developerDto.setProfilePictureUrl(profilePictureUrl);
 	}
 
-	DeveloperDto updatedProfile = profileService.updateProfile(profileDto);
+	DeveloperDto updatedDeveloper = developerService.updateDeveloper(developerDto);
 
-	return modelMapper.map(updatedProfile, ProfileResponse.class);
+	return modelMapper.map(updatedDeveloper, DeveloperResponse.class);
     }
 
     @PostMapping("/initial")
-    public ResponseEntity<String> initialSeed(@RequestBody List<ProfileRequest> profileRequests)
+    public ResponseEntity<String> initialSeed(@RequestBody List<DeveloperRequest> developerRequests)
 	    throws RestApiDevelopersException {
 
-	List<DeveloperDto> profilesDto = new ArrayList<>();
-	for (ProfileRequest profileRequest : profileRequests) {
-	    DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
-	    profilesDto.add(profileDto);
+	List<DeveloperDto> developersDto = new ArrayList<>();
+	for (DeveloperRequest developerRequest : developerRequests) {
+	    DeveloperDto developerDto = modelMapper.map(developerRequest, DeveloperDto.class);
+	    developersDto.add(developerDto);
 	}
 
-	profileService.initialSeed(profilesDto);
+	developerService.initialSeed(developersDto);
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }

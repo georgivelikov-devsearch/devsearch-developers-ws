@@ -2,10 +2,10 @@ package devsearch.developers.ws.ui.model.response;
 
 import java.util.Collection;
 
-public class ProfileListResponse {
+public class DeveloperListResponse {
 
     private int totalPages;
-    private Collection<ProfilePublicResponse> profiles;
+    private Collection<DeveloperPublicResponse> profiles;
 
     public int getTotalPages() {
 	return totalPages;
@@ -15,11 +15,11 @@ public class ProfileListResponse {
 	this.totalPages = totalPages;
     }
 
-    public Collection<ProfilePublicResponse> getProfiles() {
+    public Collection<DeveloperPublicResponse> getProfiles() {
 	return profiles;
     }
 
-    public void setProfiles(Collection<ProfilePublicResponse> profiles) {
+    public void setProfiles(Collection<DeveloperPublicResponse> profiles) {
 	this.profiles = profiles;
     }
 }

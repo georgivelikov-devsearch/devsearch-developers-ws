@@ -2,22 +2,23 @@ package devsearch.developers.ws.ui.model.request;
 
 public class ImageRequest {
 
-    private String profilePictureBase64;
-    private String profileId;
+    private String developerId;
+    private String developerPictureBase64;
 
-    public String getProfilePictureBase64() {
-	return profilePictureBase64;
+    public String getDeveloperId() {
+	return developerId;
     }
 
-    public void setProfilePictureBase64(String profilePictureBase64) {
-	this.profilePictureBase64 = profilePictureBase64;
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 
-    public String getProfileId() {
-	return profileId;
+    public String getDeveloperPictureBase64() {
+	return developerPictureBase64;
     }
 
-    public void setProfileId(String profileId) {
-	this.profileId = profileId;
+    public void setDeveloperPictureBase64(String developerPictureBase64) {
+	this.developerPictureBase64 = developerPictureBase64;
     }
+
 }

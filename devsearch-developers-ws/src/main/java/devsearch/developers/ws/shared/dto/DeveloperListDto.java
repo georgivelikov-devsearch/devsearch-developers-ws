@@ -5,7 +5,7 @@ import java.util.Collection;
 public class DeveloperListDto {
 
     private int totalPages;
-    private Collection<DeveloperDto> profiles;
+    private Collection<DeveloperDto> developers;
 
     public int getTotalPages() {
 	return totalPages;
@@ -15,11 +15,11 @@ public class DeveloperListDto {
 	this.totalPages = totalPages;
     }
 
-    public Collection<DeveloperDto> getProfiles() {
-	return profiles;
+    public Collection<DeveloperDto> getDevelopers() {
+	return developers;
     }
 
-    public void setProfiles(Collection<DeveloperDto> profiles) {
-	this.profiles = profiles;
+    public void setProfiles(Collection<DeveloperDto> developers) {
+	this.developers = developers;
     }
 }

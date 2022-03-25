@@ -1,8 +1,8 @@
 package devsearch.developers.ws.ui.model.request;
 
-public class ProfileRequest {
+public class DeveloperRequest {
 
-    private String profileId;
+    private String developerId;
     private String username;
     private String firstName;
     private String lastName;
@@ -19,12 +19,12 @@ public class ProfileRequest {
     private String profilePictureBase64;
     private boolean newProfilePictureUpload;
 
-    public String getProfileId() {
-	return profileId;
+    public String getDeveloperId() {
+	return developerId;
     }
 
-    public void setProfileId(String profileId) {
-	this.profileId = profileId;
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 
     public String getUsername() {
