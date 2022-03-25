@@ -1,6 +1,6 @@
 package devsearch.developers.ws.ui.model.request;
 
-public class ImageRequest {
+public class DeveloperImageRequest {
 
     private String developerId;
     private String developerPictureBase64;

@@ -25,7 +25,7 @@ import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
 import devsearch.developers.ws.shared.utils.Mapper;
 import devsearch.developers.ws.ui.model.request.DeveloperRequest;
-import devsearch.developers.ws.ui.model.request.ImageRequest;
+import devsearch.developers.ws.ui.model.request.DeveloperImageRequest;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperPublicResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperResponse;
@@ -131,7 +131,7 @@ public class DeveloperController {
 	DeveloperDto developerDto = modelMapper.map(developerRequest, DeveloperDto.class);
 
 	if (developerDto.isNewProfilePictureUpload()) {
-	    ImageRequest imageRequest = new ImageRequest();
+	    DeveloperImageRequest imageRequest = new DeveloperImageRequest();
 	    imageRequest.setDeveloperId(developerDto.getDeveloperId());
 	    imageRequest.setDeveloperPictureBase64(developerDto.getProfilePictureBase64());
 
