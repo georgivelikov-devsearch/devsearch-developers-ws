@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import devsearch.developers.ws.client.ImageClient;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
-import devsearch.developers.ws.service.ProfileService;
-import devsearch.developers.ws.shared.dto.ProfileDto;
-import devsearch.developers.ws.shared.dto.ProfileListDto;
+import devsearch.developers.ws.service.DeveloperService;
+import devsearch.developers.ws.shared.dto.DeveloperDto;
+import devsearch.developers.ws.shared.dto.DeveloperListDto;
 import devsearch.developers.ws.shared.utils.Mapper;
 import devsearch.developers.ws.ui.model.request.ImageRequest;
 import devsearch.developers.ws.ui.model.request.ProfileRequest;
@@ -36,7 +36,7 @@ import devsearch.developers.ws.ui.model.response.ProfileResponse;
 public class ProfileController {
 
     @Autowired
-    private ProfileService profileService;
+    private DeveloperService profileService;
 
     @Autowired
     private ImageClient imageClient;
@@ -52,7 +52,7 @@ public class ProfileController {
     @GetMapping(path = "/user/{username}")
     public ProfileResponse getProfile(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
 	    throws RestApiDevelopersException {
-	ProfileDto profileDto = null;
+	DeveloperDto profileDto = null;
 
 	try {
 	    profileDto = profileService.getProfileByUsername(username);
@@ -63,7 +63,7 @@ public class ProfileController {
 	    String lastName = jwt.getClaimAsString("family_name");
 	    String contactEmail = jwt.getClaimAsString("email");
 
-	    profileDto = new ProfileDto();
+	    profileDto = new DeveloperDto();
 	    profileDto.setUsername(preferredUsername);
 	    profileDto.setFirstName(firstName);
 	    profileDto.setLastName(lastName);
@@ -76,7 +76,7 @@ public class ProfileController {
 
     @GetMapping(path = "/public/user/{username}")
     public ProfilePublicResponse getPublicProfile(@PathVariable String username) throws RestApiDevelopersException {
-	ProfileDto profileDto = profileService.getProfileByUsername(username);
+	DeveloperDto profileDto = profileService.getProfileByUsername(username);
 
 	return modelMapper.map(profileDto, ProfilePublicResponse.class);
     }
@@ -93,11 +93,11 @@ public class ProfileController {
 	    page -= 1;
 	}
 
-	ProfileListDto profiles = profileService.getProfiles(page, limit, searchText);
+	DeveloperListDto profiles = profileService.getProfiles(page, limit, searchText);
 	Collection<ProfilePublicResponse> responseProfiles = new ArrayList<ProfilePublicResponse>();
 	String username = "Dummy";
 	boolean senderFound = false;
-	for (ProfileDto profile : profiles.getProfiles()) {
+	for (DeveloperDto profile : profiles.getProfiles()) {
 	    ProfilePublicResponse publicProfile = modelMapper.map(profile, ProfilePublicResponse.class);
 	    if (!senderFound && profile.getUsername().equals(username)) {
 		publicProfile.setSender(true);
@@ -116,15 +116,15 @@ public class ProfileController {
 
     @PostMapping(path = "/user/{username}")
     public ProfileResponse createProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
-	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
-	ProfileDto createdProfile = profileService.createProfile(profileDto);
+	DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
+	DeveloperDto createdProfile = profileService.createProfile(profileDto);
 
 	return modelMapper.map(createdProfile, ProfileResponse.class);
     }
 
     @PutMapping(path = "/user/{username}")
     public ProfileResponse updateProfile(@RequestBody ProfileRequest profileRequest) throws RestApiDevelopersException {
-	ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
+	DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
 
 	if (profileDto.isNewProfilePictureUpload()) {
 	    ImageRequest imageRequest = new ImageRequest();
@@ -136,7 +136,7 @@ public class ProfileController {
 	    profileDto.setProfilePictureUrl(profilePictureUrl);
 	}
 
-	ProfileDto updatedProfile = profileService.updateProfile(profileDto);
+	DeveloperDto updatedProfile = profileService.updateProfile(profileDto);
 
 	return modelMapper.map(updatedProfile, ProfileResponse.class);
     }
@@ -145,9 +145,9 @@ public class ProfileController {
     public ResponseEntity<String> initialSeed(@RequestBody List<ProfileRequest> profileRequests)
 	    throws RestApiDevelopersException {
 
-	List<ProfileDto> profilesDto = new ArrayList<>();
+	List<DeveloperDto> profilesDto = new ArrayList<>();
 	for (ProfileRequest profileRequest : profileRequests) {
-	    ProfileDto profileDto = modelMapper.map(profileRequest, ProfileDto.class);
+	    DeveloperDto profileDto = modelMapper.map(profileRequest, DeveloperDto.class);
 	    profilesDto.add(profileDto);
 	}
 

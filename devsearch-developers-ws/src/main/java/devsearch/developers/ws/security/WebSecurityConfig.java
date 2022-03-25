@@ -21,11 +21,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// converter
 
 	http.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/profiles/status")
+		.antMatchers(HttpMethod.GET, "/developers/status")
 		.permitAll()
-		.antMatchers(HttpMethod.GET, "/profiles/public/all")
+		.antMatchers(HttpMethod.GET, "/developers/public/all")
 		.permitAll()
-		.antMatchers(HttpMethod.POST, "/profiles/initial")
+		.antMatchers(HttpMethod.POST, "/developers/initial")
 		.permitAll()
 		.anyRequest()
 		.authenticated()

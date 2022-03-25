@@ -12,7 +12,7 @@ import devsearch.developers.ws.io.entity.DeveloperEntity;
 @Repository
 public interface DeveloperRepository extends PagingAndSortingRepository<DeveloperEntity, Long> {
 
-    public DeveloperEntity findByProfileId(String developerId);
+    public DeveloperEntity findByDeveloperId(String developerId);
 
     public DeveloperEntity findByUsername(String username);
 

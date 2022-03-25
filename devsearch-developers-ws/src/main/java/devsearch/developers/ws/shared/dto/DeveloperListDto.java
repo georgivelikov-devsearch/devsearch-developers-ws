@@ -2,10 +2,10 @@ package devsearch.developers.ws.shared.dto;
 
 import java.util.Collection;
 
-public class ProfileListDto {
+public class DeveloperListDto {
 
     private int totalPages;
-    private Collection<ProfileDto> profiles;
+    private Collection<DeveloperDto> profiles;
 
     public int getTotalPages() {
 	return totalPages;
@@ -15,11 +15,11 @@ public class ProfileListDto {
 	this.totalPages = totalPages;
     }
 
-    public Collection<ProfileDto> getProfiles() {
+    public Collection<DeveloperDto> getProfiles() {
 	return profiles;
     }
 
-    public void setProfiles(Collection<ProfileDto> profiles) {
+    public void setProfiles(Collection<DeveloperDto> profiles) {
 	this.profiles = profiles;
     }
 }
