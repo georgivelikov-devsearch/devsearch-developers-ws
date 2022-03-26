@@ -9,6 +9,6 @@ public interface SkillService {
 
     public SkillDto getSkillBySkillName(String skillName);
 
-    public SkillDto createSkill(SkillDto skill) throws RestApiDevelopersException;
+    public SkillDto createSkill(SkillDto skillDto) throws RestApiDevelopersException;
 
 }
