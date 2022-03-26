@@ -52,23 +52,27 @@ public class DeveloperController {
     @GetMapping(path = "/user/{username}")
     public DeveloperResponse getDeveloper(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
 	    throws RestApiDevelopersException {
-	DeveloperDto developerDto = null;
-
-	try {
-	    developerDto = developerService.getDeveloperByUsername(username);
-	} catch (RestApiDevelopersException ex) {
-	    // Profile for the currently logged in user does not exist. Create new profile.
+	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
+	if (developerDto == null) {
+	    // Username url param may be 'undefined' because of refresh page. Check jwt
+	    // username
 	    String preferredUsername = jwt.getClaimAsString("preferred_username");
-	    String firstName = jwt.getClaimAsString("given_name");
-	    String lastName = jwt.getClaimAsString("family_name");
-	    String contactEmail = jwt.getClaimAsString("email");
+	    developerDto = developerService.getDeveloperByUsername(preferredUsername);
 
-	    developerDto = new DeveloperDto();
-	    developerDto.setUsername(preferredUsername);
-	    developerDto.setFirstName(firstName);
-	    developerDto.setLastName(lastName);
-	    developerDto.setContactEmail(contactEmail);
-	    developerDto = developerService.createDeveloper(developerDto);
+	    if (developerDto == null) {
+		// Developer profile for the currently logged in user does not exist.
+		// User is checking the profile for the first time ever.
+		String firstName = jwt.getClaimAsString("given_name");
+		String lastName = jwt.getClaimAsString("family_name");
+		String contactEmail = jwt.getClaimAsString("email");
+
+		developerDto = new DeveloperDto();
+		developerDto.setUsername(preferredUsername);
+		developerDto.setFirstName(firstName);
+		developerDto.setLastName(lastName);
+		developerDto.setContactEmail(contactEmail);
+		developerDto = developerService.createDeveloper(developerDto);
+	    }
 	}
 
 	return modelMapper.map(developerDto, DeveloperResponse.class);

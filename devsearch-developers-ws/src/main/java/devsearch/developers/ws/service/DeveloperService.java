@@ -8,9 +8,9 @@ import devsearch.developers.ws.shared.dto.DeveloperListDto;
 
 public interface DeveloperService {
 
-    public DeveloperDto getDeveloperByDeveloperId(String developerId) throws RestApiDevelopersException;
+    public DeveloperDto getDeveloperByDeveloperId(String developerId);
 
-    public DeveloperDto getDeveloperByUsername(String username) throws RestApiDevelopersException;
+    public DeveloperDto getDeveloperByUsername(String username);
 
     public DeveloperDto createDeveloper(DeveloperDto developerDto) throws RestApiDevelopersException;
 

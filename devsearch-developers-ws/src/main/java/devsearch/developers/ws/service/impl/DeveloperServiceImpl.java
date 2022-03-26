@@ -33,21 +33,22 @@ public class DeveloperServiceImpl implements DeveloperService {
     private Utils utils;
 
     @Override
-    public DeveloperDto getDeveloperByDeveloperId(String developerId) throws RestApiDevelopersException {
+    public DeveloperDto getDeveloperByDeveloperId(String developerId) {
 	DeveloperEntity developerEntity = developerRepository.findByDeveloperId(developerId);
 
 	if (developerEntity == null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
+	    return null;
 	}
 
 	return modelMapper.map(developerEntity, DeveloperDto.class);
     }
 
     @Override
-    public DeveloperDto getDeveloperByUsername(String username) throws RestApiDevelopersException {
+    public DeveloperDto getDeveloperByUsername(String username) {
 	DeveloperEntity developerEntity = developerRepository.findByUsername(username);
+
 	if (developerEntity == null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
+	    return null;
 	}
 
 	return modelMapper.map(developerEntity, DeveloperDto.class);
