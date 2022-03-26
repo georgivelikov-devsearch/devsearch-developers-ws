@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,5 +19,5 @@ public interface DeveloperRepository extends PagingAndSortingRepository<Develope
 
     @Transactional
     @Query(value = "SELECT d FROM DeveloperEntity d where (d.firstName LIKE %:searchText% OR d.lastName LIKE %:searchText%)")
-    Page<DeveloperEntity> findAllByText(Pageable pageable, String searchText);
+    Page<DeveloperEntity> findAllByText(Pageable pageable, @Param("searchText") String searchText);
 }

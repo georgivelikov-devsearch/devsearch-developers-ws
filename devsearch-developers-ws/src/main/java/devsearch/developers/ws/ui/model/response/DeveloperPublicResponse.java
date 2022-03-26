@@ -17,7 +17,6 @@ public class DeveloperPublicResponse {
     private String locationCity;
     private String locationCountry;
     private String developerPictureUrl;
-    private boolean sender;
 
     public String getDeveloperPublicId() {
 	return developerId;
@@ -137,13 +136,5 @@ public class DeveloperPublicResponse {
 
     public void setDeveloperPictureUrl(String developerPictureUrl) {
 	this.developerPictureUrl = developerPictureUrl;
-    }
-
-    public boolean isSender() {
-	return sender;
-    }
-
-    public void setSender(boolean sender) {
-	this.sender = sender;
     }
 }

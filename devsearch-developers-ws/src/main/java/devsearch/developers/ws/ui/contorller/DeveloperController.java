@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import devsearch.developers.ws.client.ImageClient;
+import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
@@ -82,6 +83,10 @@ public class DeveloperController {
     public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws RestApiDevelopersException {
 	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
 
+	if (developerDto == null) {
+	    throw new RestApiDevelopersException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
+	}
+
 	return modelMapper.map(developerDto, DeveloperPublicResponse.class);
     }
 
@@ -100,16 +105,8 @@ public class DeveloperController {
 
 	DeveloperListDto developers = developerService.getDevelopers(page, limit, searchText);
 	Collection<DeveloperPublicResponse> responseDevelopers = new ArrayList<DeveloperPublicResponse>();
-	// TODO fix this
-	String username = "Dummy";
-	boolean senderFound = false;
 	for (DeveloperDto developer : developers.getDevelopers()) {
 	    DeveloperPublicResponse publicDeveloper = modelMapper.map(developer, DeveloperPublicResponse.class);
-	    if (!senderFound && developer.getUsername().equals(username)) {
-		publicDeveloper.setSender(true);
-		senderFound = true;
-	    }
-
 	    responseDevelopers.add(publicDeveloper);
 	}
 
