@@ -7,6 +7,6 @@ public interface SkillDescriptionService {
 
     public SkillDescriptionDto getSkillDescriptionBySkillDescriptionId(String skillDescriptionId);
 
-    public SkillDescriptionDto createSkillDescriptionDto(SkillDescriptionDto skillDescription)
+    public SkillDescriptionDto createSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException;
 }
