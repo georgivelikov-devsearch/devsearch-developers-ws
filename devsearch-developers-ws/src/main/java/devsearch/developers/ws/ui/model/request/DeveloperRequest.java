@@ -135,7 +135,7 @@ public class DeveloperRequest {
 	return developerPictureBase64;
     }
 
-    public void setProfilePictureBase64(String developerPictureBase64) {
+    public void setDeveloperPictureBase64(String developerPictureBase64) {
 	this.developerPictureBase64 = developerPictureBase64;
     }
 

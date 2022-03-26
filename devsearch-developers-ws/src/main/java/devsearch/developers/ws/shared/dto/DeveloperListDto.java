@@ -19,7 +19,7 @@ public class DeveloperListDto {
 	return developers;
     }
 
-    public void setProfiles(Collection<DeveloperDto> developers) {
+    public void setDevelopers(Collection<DeveloperDto> developers) {
 	this.developers = developers;
     }
 }
