@@ -20,12 +20,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// KeycloakRoleConverter()); // delegate to custom
 	// converter
 
-	http.authorizeRequests()
+	http.csrf()
+		.disable() // Disable CSRF is needed for POST requests!!!
+		.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/developers/status")
 		.permitAll()
-		.antMatchers(HttpMethod.GET, "/developers/public/all")
-		.permitAll()
 		.antMatchers(HttpMethod.POST, "/developers/initial")
+		.permitAll()
+		.antMatchers(HttpMethod.GET, "/developers/public/all")
 		.permitAll()
 		.anyRequest()
 		.authenticated()
