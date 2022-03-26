@@ -33,7 +33,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     private Utils utils;
 
     @Override
-    public DeveloperDto getDeveloperByProfileId(String developerId) throws RestApiDevelopersException {
+    public DeveloperDto getDeveloperByDeveloperId(String developerId) throws RestApiDevelopersException {
 	DeveloperEntity developerEntity = developerRepository.findByDeveloperId(developerId);
 
 	if (developerEntity == null) {
@@ -67,14 +67,14 @@ public class DeveloperServiceImpl implements DeveloperService {
 
 	developerEntity = modelMapper.map(developerDto, DeveloperEntity.class);
 
-	DeveloperEntity storedProfileEntity = null;
+	DeveloperEntity storedDeveloperEntity = null;
 	try {
-	    storedProfileEntity = developerRepository.save(developerEntity);
+	    storedDeveloperEntity = developerRepository.save(developerEntity);
 	} catch (Exception ex) {
 	    throw new RestApiDevelopersException(ExceptionMessages.CREATE_RECORD_FAILED, ex.getMessage());
 	}
 
-	return modelMapper.map(storedProfileEntity, DeveloperDto.class);
+	return modelMapper.map(storedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class DeveloperServiceImpl implements DeveloperService {
 	developerEntity.setSocialWebsite(developerDto.getSocialWebsite());
 	developerEntity.setLocationCity(developerDto.getLocationCity());
 	developerEntity.setLocationCountry(developerDto.getLocationCountry());
-	if (developerDto.isNewProfilePictureUpload()) {
-	    developerEntity.setProfilePictureUrl(developerDto.getProfilePictureUrl());
+	if (developerDto.isNewDeveloperPictureUpload()) {
+	    developerEntity.setDeveloperPictureUrl(developerDto.getDeveloperPictureUrl());
 	}
 
 	DeveloperEntity updatedDeveloperEntity = null;
@@ -144,13 +144,13 @@ public class DeveloperServiceImpl implements DeveloperService {
 	int totalPages = developerListPage.getTotalPages();
 
 	List<DeveloperDto> developerDtoList = new ArrayList<>();
-	for (DeveloperEntity profileEntity : developers) {
-	    DeveloperDto developerDto = modelMapper.map(profileEntity, DeveloperDto.class);
+	for (DeveloperEntity developerEntity : developers) {
+	    DeveloperDto developerDto = modelMapper.map(developerEntity, DeveloperDto.class);
 	    developerDtoList.add(developerDto);
 	}
 
 	returnValue.setTotalPages(totalPages);
-	returnValue.setProfiles(developerDtoList);
+	returnValue.setDevelopers(developerDtoList);
 
 	return returnValue;
     }

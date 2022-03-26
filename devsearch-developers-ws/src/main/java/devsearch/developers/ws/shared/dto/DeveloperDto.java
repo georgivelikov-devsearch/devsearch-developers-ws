@@ -16,9 +16,9 @@ public class DeveloperDto {
     private String socialWebsite;
     private String locationCity;
     private String locationCountry;
-    private String profilePictureUrl;
-    private String profilePictureBase64;
-    private boolean newProfilePictureUpload;
+    private String developerPictureUrl;
+    private String developerPictureBase64;
+    private boolean newDeveloperPictureUpload;
 
     public String getDeveloperId() {
 	return developerId;
@@ -132,27 +132,27 @@ public class DeveloperDto {
 	this.locationCountry = locationCountry;
     }
 
-    public String getProfilePictureUrl() {
-	return profilePictureUrl;
+    public String getDeveloperPictureUrl() {
+	return developerPictureUrl;
     }
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-	this.profilePictureUrl = profilePictureUrl;
+    public void setDeveloperPictureUrl(String developerPictureUrl) {
+	this.developerPictureUrl = developerPictureUrl;
     }
 
-    public String getProfilePictureBase64() {
-	return profilePictureBase64;
+    public String getDeveloperPictureBase64() {
+	return developerPictureBase64;
     }
 
-    public void setProfilePictureBase64(String profilePictureBase64) {
-	this.profilePictureBase64 = profilePictureBase64;
+    public void setDeveloperPictureBase64(String developerPictureBase64) {
+	this.developerPictureBase64 = developerPictureBase64;
     }
 
-    public boolean isNewProfilePictureUpload() {
-	return newProfilePictureUpload;
+    public boolean isNewDeveloperPictureUpload() {
+	return newDeveloperPictureUpload;
     }
 
-    public void setNewProfilePictureUpload(boolean newProfilePictureUpload) {
-	this.newProfilePictureUpload = newProfilePictureUpload;
+    public void setNewDeveloperPictureUpload(boolean newDeveloperPictureUpload) {
+	this.newDeveloperPictureUpload = newDeveloperPictureUpload;
     }
 }

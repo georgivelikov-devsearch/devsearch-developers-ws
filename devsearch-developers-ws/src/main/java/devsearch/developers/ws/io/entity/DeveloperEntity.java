@@ -65,7 +65,7 @@ public class DeveloperEntity implements Serializable {
     private String locationCountry;
 
     @Column(nullable = true, length = 200)
-    private String profilePictureUrl;
+    private String developerPictureUrl;
 
     public long getId() {
 	return id;
@@ -187,11 +187,11 @@ public class DeveloperEntity implements Serializable {
 	this.locationCountry = locationCountry;
     }
 
-    public String getProfilePictureUrl() {
-	return profilePictureUrl;
+    public String getDeveloperPictureUrl() {
+	return developerPictureUrl;
     }
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-	this.profilePictureUrl = profilePictureUrl;
+    public void setDeveloperPictureUrl(String developerPictureUrl) {
+	this.developerPictureUrl = developerPictureUrl;
     }
 }

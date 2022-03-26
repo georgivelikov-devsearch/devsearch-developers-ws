@@ -16,7 +16,7 @@ public class DeveloperResponse {
     private String socialWebsite;
     private String locationCity;
     private String locationCountry;
-    private String profilePictureUrl;
+    private String developerPictureUrl;
 
     public String getDeveloperId() {
 	return developerId;
@@ -130,11 +130,11 @@ public class DeveloperResponse {
 	this.locationCountry = locationCountry;
     }
 
-    public String getProfilePictureUrl() {
-	return profilePictureUrl;
+    public String getDeveloperPictureUrl() {
+	return developerPictureUrl;
     }
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-	this.profilePictureUrl = profilePictureUrl;
+    public void setDeveloperPictureUrl(String developerPictureUrl) {
+	this.developerPictureUrl = developerPictureUrl;
     }
 }

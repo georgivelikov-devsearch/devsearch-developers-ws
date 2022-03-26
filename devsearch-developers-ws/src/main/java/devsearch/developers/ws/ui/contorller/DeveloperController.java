@@ -76,9 +76,9 @@ public class DeveloperController {
 
     @GetMapping(path = "/public/user/{username}")
     public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws RestApiDevelopersException {
-	DeveloperDto profileDto = developerService.getDeveloperByUsername(username);
+	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
 
-	return modelMapper.map(profileDto, DeveloperPublicResponse.class);
+	return modelMapper.map(developerDto, DeveloperPublicResponse.class);
     }
 
     @GetMapping("/public/all")
@@ -111,7 +111,7 @@ public class DeveloperController {
 
 	DeveloperListResponse response = new DeveloperListResponse();
 	response.setTotalPages(developers.getTotalPages());
-	response.setProfiles(responseDevelopers);
+	response.setDevelopers(responseDevelopers);
 
 	return response;
     }
@@ -130,14 +130,14 @@ public class DeveloperController {
 	    throws RestApiDevelopersException {
 	DeveloperDto developerDto = modelMapper.map(developerRequest, DeveloperDto.class);
 
-	if (developerDto.isNewProfilePictureUpload()) {
+	if (developerDto.isNewDeveloperPictureUpload()) {
 	    DeveloperImageRequest imageRequest = new DeveloperImageRequest();
 	    imageRequest.setDeveloperId(developerDto.getDeveloperId());
-	    imageRequest.setDeveloperPictureBase64(developerDto.getProfilePictureBase64());
+	    imageRequest.setDeveloperPictureBase64(developerDto.getDeveloperPictureBase64());
 
 	    ResponseEntity<ImageResponse> imageResponse = imageClient.addDeveloperImage(imageRequest);
-	    String profilePictureUrl = imageResponse.getBody().getDeveloperPictureUrl();
-	    developerDto.setProfilePictureUrl(profilePictureUrl);
+	    String developerPictureUrl = imageResponse.getBody().getDeveloperPictureUrl();
+	    developerDto.setDeveloperPictureUrl(developerPictureUrl);
 	}
 
 	DeveloperDto updatedDeveloper = developerService.updateDeveloper(developerDto);
