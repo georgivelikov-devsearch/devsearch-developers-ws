@@ -1,6 +1,8 @@
-package devsearch.developers.ws.ui.model.request;
+package devsearch.developers.ws.ui.model.response;
 
-public class DeveloperSkillDescription {
+import devsearch.developers.ws.ui.model.request.SkillDescriptionRequest;
+
+public class DeveloperSkillDescriptionResponse {
 
     private String developerId;
 
