@@ -32,6 +32,10 @@ public class SkillDescriptionEntity implements Serializable {
     @JoinColumn(name = "skill_id", nullable = false)
     private SkillEntity skill;
 
+    @ManyToOne
+    @JoinColumn(name = "developer_id", nullable = false)
+    private DeveloperEntity developer;
+
     public long getId() {
 	return id;
     }
@@ -62,6 +66,14 @@ public class SkillDescriptionEntity implements Serializable {
 
     public void setSkill(SkillEntity skill) {
 	this.skill = skill;
+    }
+
+    public DeveloperEntity getDeveloper() {
+	return developer;
+    }
+
+    public void setDeveloper(DeveloperEntity developer) {
+	this.developer = developer;
     }
 
 }

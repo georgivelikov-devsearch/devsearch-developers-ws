@@ -1,11 +1,13 @@
 package devsearch.developers.ws.io.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -66,6 +68,9 @@ public class DeveloperEntity implements Serializable {
 
     @Column(nullable = true, length = 200)
     private String developerPictureUrl;
+
+    @OneToMany(mappedBy = "developer")
+    private Set<SkillDescriptionEntity> skillDescriptions;
 
     public long getId() {
 	return id;
@@ -193,5 +198,13 @@ public class DeveloperEntity implements Serializable {
 
     public void setDeveloperPictureUrl(String developerPictureUrl) {
 	this.developerPictureUrl = developerPictureUrl;
+    }
+
+    public Set<SkillDescriptionEntity> getSkillDescriptions() {
+	return skillDescriptions;
+    }
+
+    public void setSkillDescriptions(Set<SkillDescriptionEntity> skillDescriptions) {
+	this.skillDescriptions = skillDescriptions;
     }
 }
