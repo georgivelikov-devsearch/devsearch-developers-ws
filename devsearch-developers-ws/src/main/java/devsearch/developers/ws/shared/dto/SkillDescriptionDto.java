@@ -8,6 +8,8 @@ public class SkillDescriptionDto {
 
     private SkillDto skill;
 
+    private String developerId;
+
     public String getSkillDescriptionId() {
 	return skillDescriptionId;
     }
@@ -30,5 +32,13 @@ public class SkillDescriptionDto {
 
     public void setSkill(SkillDto skill) {
 	this.skill = skill;
+    }
+
+    public String getDeveloperId() {
+	return developerId;
+    }
+
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 }

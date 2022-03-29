@@ -2,8 +2,6 @@ package devsearch.developers.ws.shared.dto;
 
 import java.util.Set;
 
-import devsearch.developers.ws.io.entity.SkillDescriptionEntity;
-
 public class DeveloperDto {
 
     private String developerId;
@@ -23,7 +21,7 @@ public class DeveloperDto {
     private String developerPictureUrl;
     private String developerPictureBase64;
     private boolean newDeveloperPictureUpload;
-    private Set<SkillDescriptionEntity> skillDescriptions;
+    private Set<SkillDescriptionDto> skillDescriptions;
 
     public String getDeveloperId() {
 	return developerId;
@@ -161,11 +159,11 @@ public class DeveloperDto {
 	this.newDeveloperPictureUpload = newDeveloperPictureUpload;
     }
 
-    public Set<SkillDescriptionEntity> getSkillDescriptions() {
+    public Set<SkillDescriptionDto> getSkillDescriptions() {
 	return skillDescriptions;
     }
 
-    public void setSkillDescriptions(Set<SkillDescriptionEntity> skillDescriptions) {
+    public void setSkillDescriptions(Set<SkillDescriptionDto> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
     }
 }

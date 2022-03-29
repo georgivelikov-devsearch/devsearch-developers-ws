@@ -9,4 +9,7 @@ public interface SkillDescriptionService {
 
     public SkillDescriptionDto createSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException;
+
+    public SkillDescriptionDto updateSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
+	    throws RestApiDevelopersException;
 }

@@ -37,6 +37,10 @@ public class SkillServiceImpl implements SkillService {
     public SkillDto getSkillBySkillName(String skillName) {
 	SkillEntity skillEntity = skillRepository.findBySkillName(skillName);
 
+	if (skillEntity == null) {
+	    return null;
+	}
+
 	return modelMapper.map(skillEntity, SkillDto.class);
     }
 
