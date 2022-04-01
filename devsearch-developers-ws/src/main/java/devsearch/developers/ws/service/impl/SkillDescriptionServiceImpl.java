@@ -3,6 +3,7 @@ package devsearch.developers.ws.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.DeveloperEntity;
 import devsearch.developers.ws.io.entity.SkillDescriptionEntity;
@@ -76,8 +77,16 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
     @Override
     public void deleteSkillDescription(String skillDescriptionId) throws RestApiDevelopersException {
-	// TODO Auto-generated method stub
+	SkillDescriptionEntity skillDescriptionEntity = skillDescriptionRepository
+		.findBySkillDescriptionId(skillDescriptionId);
+	if (skillDescriptionEntity == null) {
+	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
+	}
 
+	try {
+	    skillDescriptionRepository.delete(skillDescriptionEntity);
+	} catch (Exception ex) {
+	    throw new RestApiDevelopersException(ExceptionMessages.DELETE_RECORD_FAILED, ex.getMessage());
+	}
     }
-
 }
