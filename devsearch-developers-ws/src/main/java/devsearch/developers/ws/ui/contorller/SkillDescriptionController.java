@@ -1,6 +1,9 @@
 package devsearch.developers.ws.ui.contorller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +47,7 @@ public class SkillDescriptionController {
 	skillDescriptionDto.setSkill(skillDto);
 
 	SkillDescriptionDto newSkillDescriptionDto = skillDescriptionService
-		.createSkillDescriptionDto(skillDescriptionDto);
+		.createSkillDescription(skillDescriptionDto);
 	return modelMapper.map(newSkillDescriptionDto, SkillDescriptionResponse.class);
     }
 
@@ -59,10 +62,18 @@ public class SkillDescriptionController {
 	    throw new RestApiDevelopersException("Skill does not exist");
 	}
 
-	skillDescriptionDto.setSkill(skillDto);
+	SkillDescriptionDto editedSkillDescriptionDto = skillDescriptionService
+		.updateSkillDescription(skillDescriptionDto);
+	return modelMapper.map(editedSkillDescriptionDto, SkillDescriptionResponse.class);
+    }
 
-	SkillDescriptionDto newSkillDescriptionDto = skillDescriptionService
-		.updateSkillDescriptionDto(skillDescriptionDto);
-	return modelMapper.map(newSkillDescriptionDto, SkillDescriptionResponse.class);
+    @DeleteMapping()
+    public ResponseEntity<String> deleteSkillDescription(@RequestBody SkillDescriptionRequest skillDescriptionRequest)
+	    throws RestApiDevelopersException {
+	SkillDescriptionDto skillDescriptionDto = modelMapper.map(skillDescriptionRequest, SkillDescriptionDto.class);
+
+	skillDescriptionService.deleteSkillDescription(skillDescriptionDto.getSkillDescriptionId());
+
+	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 }

@@ -7,9 +7,11 @@ public interface SkillDescriptionService {
 
     public SkillDescriptionDto getSkillDescriptionBySkillDescriptionId(String skillDescriptionId);
 
-    public SkillDescriptionDto createSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
+    public SkillDescriptionDto createSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException;
 
-    public SkillDescriptionDto updateSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
+    public SkillDescriptionDto updateSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException;
+
+    public void deleteSkillDescription(String skillDescriptionId) throws RestApiDevelopersException;
 }

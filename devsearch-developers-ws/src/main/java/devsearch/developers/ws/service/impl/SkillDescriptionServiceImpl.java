@@ -43,7 +43,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
     }
 
     @Override
-    public SkillDescriptionDto createSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
+    public SkillDescriptionDto createSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException {
 	SkillDescriptionEntity skillDescriptionEntity = modelMapper.map(skillDescriptionDto,
 		SkillDescriptionEntity.class);
@@ -62,7 +62,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
     }
 
     @Override
-    public SkillDescriptionDto updateSkillDescriptionDto(SkillDescriptionDto skillDescriptionDto)
+    public SkillDescriptionDto updateSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException {
 	SkillDescriptionEntity skillDescriptionEntity = skillDescriptionRepository
 		.findBySkillDescriptionId(skillDescriptionDto.getSkillDescriptionId());
@@ -72,6 +72,12 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
 
 	return modelMapper.map(storedEntity, SkillDescriptionDto.class);
+    }
+
+    @Override
+    public void deleteSkillDescription(String skillDescriptionId) throws RestApiDevelopersException {
+	// TODO Auto-generated method stub
+
     }
 
 }
