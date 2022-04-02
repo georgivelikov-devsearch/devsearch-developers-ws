@@ -36,6 +36,9 @@ public class SkillDescriptionEntity implements Serializable {
     @JoinColumn(name = "developer_id", nullable = false)
     private DeveloperEntity developer;
 
+    @Column(nullable = false)
+    private int position;
+
     public long getId() {
 	return id;
     }
@@ -74,6 +77,14 @@ public class SkillDescriptionEntity implements Serializable {
 
     public void setDeveloper(DeveloperEntity developer) {
 	this.developer = developer;
+    }
+
+    public int getPosition() {
+	return position;
+    }
+
+    public void setPosition(int position) {
+	this.position = position;
     }
 
 }

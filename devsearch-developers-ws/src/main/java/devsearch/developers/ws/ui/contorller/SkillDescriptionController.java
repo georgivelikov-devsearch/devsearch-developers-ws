@@ -68,10 +68,10 @@ public class SkillDescriptionController {
 	return modelMapper.map(editedSkillDescriptionDto, SkillDescriptionResponse.class);
     }
 
-    @DeleteMapping(path = "/{skillDescriptionId}")
-    public ResponseEntity<String> deleteSkillDescription(@PathVariable String skillDescriptionId)
-	    throws RestApiDevelopersException {
-	skillDescriptionService.deleteSkillDescription(skillDescriptionId);
+    @DeleteMapping(path = "/{username}/{skillDescriptionId}")
+    public ResponseEntity<String> deleteSkillDescription(@PathVariable String username,
+	    @PathVariable String skillDescriptionId) throws RestApiDevelopersException {
+	skillDescriptionService.deleteSkillDescription(username, skillDescriptionId);
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }

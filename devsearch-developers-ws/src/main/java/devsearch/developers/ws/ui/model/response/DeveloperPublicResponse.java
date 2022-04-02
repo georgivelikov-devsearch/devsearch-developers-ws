@@ -1,6 +1,6 @@
 package devsearch.developers.ws.ui.model.response;
 
-import java.util.Set;
+import java.util.List;
 
 public class DeveloperPublicResponse {
 
@@ -19,7 +19,7 @@ public class DeveloperPublicResponse {
     private String locationCity;
     private String locationCountry;
     private String developerPictureUrl;
-    private Set<SkillDescriptionResponse> skillDescriptions;
+    private List<SkillDescriptionResponse> skillDescriptions;
 
     public String getDeveloperId() {
 	return developerId;
@@ -141,11 +141,11 @@ public class DeveloperPublicResponse {
 	this.developerPictureUrl = developerPictureUrl;
     }
 
-    public Set<SkillDescriptionResponse> getSkillDescriptions() {
+    public List<SkillDescriptionResponse> getSkillDescriptions() {
 	return skillDescriptions;
     }
 
-    public void setSkillDescriptions(Set<SkillDescriptionResponse> skillDescriptions) {
+    public void setSkillDescriptions(List<SkillDescriptionResponse> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
     }
 }

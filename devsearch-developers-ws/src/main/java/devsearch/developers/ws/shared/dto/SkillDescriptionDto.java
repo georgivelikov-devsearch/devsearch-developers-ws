@@ -10,6 +10,8 @@ public class SkillDescriptionDto {
 
     private String developerId;
 
+    private int position;
+
     public String getSkillDescriptionId() {
 	return skillDescriptionId;
     }
@@ -40,5 +42,13 @@ public class SkillDescriptionDto {
 
     public void setDeveloperId(String developerId) {
 	this.developerId = developerId;
+    }
+
+    public int getPosition() {
+	return position;
+    }
+
+    public void setPosition(int position) {
+	this.position = position;
     }
 }

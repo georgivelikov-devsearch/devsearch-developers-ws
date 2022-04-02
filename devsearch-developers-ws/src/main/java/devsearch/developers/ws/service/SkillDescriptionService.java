@@ -13,5 +13,5 @@ public interface SkillDescriptionService {
     public SkillDescriptionDto updateSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException;
 
-    public void deleteSkillDescription(String skillDescriptionId) throws RestApiDevelopersException;
+    public void deleteSkillDescription(String username, String skillDescriptionId) throws RestApiDevelopersException;
 }

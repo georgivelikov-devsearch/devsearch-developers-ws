@@ -10,6 +10,8 @@ public class SkillDescriptionResponse {
 
     private SkillRequest skill;
 
+    private int position;
+
     public String getSkillDescriptionId() {
 	return skillDescriptionId;
     }
@@ -32,5 +34,13 @@ public class SkillDescriptionResponse {
 
     public void setSkill(SkillRequest skill) {
 	this.skill = skill;
+    }
+
+    public int getPosition() {
+	return position;
+    }
+
+    public void setPosition(int position) {
+	this.position = position;
     }
 }

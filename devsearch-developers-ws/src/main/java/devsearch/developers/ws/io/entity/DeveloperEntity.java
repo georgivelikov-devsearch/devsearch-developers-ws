@@ -1,7 +1,7 @@
 package devsearch.developers.ws.io.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,7 +70,7 @@ public class DeveloperEntity implements Serializable {
     private String developerPictureUrl;
 
     @OneToMany(mappedBy = "developer")
-    private Set<SkillDescriptionEntity> skillDescriptions;
+    private List<SkillDescriptionEntity> skillDescriptions;
 
     public long getId() {
 	return id;
@@ -200,11 +200,11 @@ public class DeveloperEntity implements Serializable {
 	this.developerPictureUrl = developerPictureUrl;
     }
 
-    public Set<SkillDescriptionEntity> getSkillDescriptions() {
+    public List<SkillDescriptionEntity> getSkillDescriptions() {
 	return skillDescriptions;
     }
 
-    public void setSkillDescriptions(Set<SkillDescriptionEntity> skillDescriptions) {
+    public void setSkillDescriptions(List<SkillDescriptionEntity> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
     }
 }

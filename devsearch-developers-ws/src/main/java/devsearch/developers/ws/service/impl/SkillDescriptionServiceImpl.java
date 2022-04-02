@@ -1,5 +1,7 @@
 package devsearch.developers.ws.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,17 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
     @Override
     public SkillDescriptionDto createSkillDescription(SkillDescriptionDto skillDescriptionDto)
 	    throws RestApiDevelopersException {
+	DeveloperEntity developerEntity = developerRepository.findByDeveloperId(skillDescriptionDto.getDeveloperId());
+	String skillName = skillDescriptionDto.getSkill().getSkillName();
+	Optional<SkillDescriptionEntity> result = developerEntity.getSkillDescriptions()
+		.stream()
+		.filter(s -> s.getSkill().getSkillName().equals(skillName))
+		.findFirst();
+
+	if (!result.isEmpty()) {
+	    throw new RestApiDevelopersException("Skill with that name already exists!");
+	}
+
 	SkillDescriptionEntity skillDescriptionEntity = modelMapper.map(skillDescriptionDto,
 		SkillDescriptionEntity.class);
 
@@ -54,7 +67,9 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillDescriptionDto.getSkill().getSkillId());
 	skillDescriptionEntity.setSkill(skillEntity);
 
-	DeveloperEntity developerEntity = developerRepository.findByDeveloperId(skillDescriptionDto.getDeveloperId());
+	// Starting from 0, the 'order' of the skill is equal to the size of the list
+	int position = developerEntity.getSkillDescriptions().size();
+	skillDescriptionEntity.setPosition(position);
 	skillDescriptionEntity.setDeveloper(developerEntity);
 
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
@@ -76,7 +91,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
     }
 
     @Override
-    public void deleteSkillDescription(String skillDescriptionId) throws RestApiDevelopersException {
+    public void deleteSkillDescription(String username, String skillDescriptionId) throws RestApiDevelopersException {
 	SkillDescriptionEntity skillDescriptionEntity = skillDescriptionRepository
 		.findBySkillDescriptionId(skillDescriptionId);
 	if (skillDescriptionEntity == null) {
@@ -87,6 +102,16 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    skillDescriptionRepository.delete(skillDescriptionEntity);
 	} catch (Exception ex) {
 	    throw new RestApiDevelopersException(ExceptionMessages.DELETE_RECORD_FAILED, ex.getMessage());
+	}
+
+	DeveloperEntity developerEntity = developerRepository.findByUsername(username);
+	// re-order existing skill descriptions, smaller position means higher in order
+	developerEntity.getSkillDescriptions()
+		.sort((SkillDescriptionEntity s1, SkillDescriptionEntity s2) -> s1.getPosition() - s2.getPosition());
+	for (int i = 0; i < developerEntity.getSkillDescriptions().size(); i++) {
+	    SkillDescriptionEntity currentEntity = developerEntity.getSkillDescriptions().get(i);
+	    currentEntity.setPosition(i);
+	    skillDescriptionRepository.save(currentEntity);
 	}
     }
 }
