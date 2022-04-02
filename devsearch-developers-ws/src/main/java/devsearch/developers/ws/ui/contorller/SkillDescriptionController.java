@@ -1,5 +1,8 @@
 package devsearch.developers.ws.ui.contorller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,5 +77,28 @@ public class SkillDescriptionController {
 	skillDescriptionService.deleteSkillDescription(username, skillDescriptionId);
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/{username}/order")
+    public List<SkillDescriptionResponse> updateSkillDescriptionOrder(@PathVariable String username,
+	    @RequestBody List<SkillDescriptionRequest> tags) throws RestApiDevelopersException {
+
+	List<SkillDescriptionDto> tagsDto = new ArrayList<>();
+	for (SkillDescriptionRequest tag : tags) {
+	    SkillDescriptionDto tagDto = modelMapper.map(tag, SkillDescriptionDto.class);
+	    tagsDto.add(tagDto);
+	}
+
+	List<SkillDescriptionDto> reorderedList = skillDescriptionService.updateSkillDescriptionOrder(username,
+		tagsDto);
+
+	List<SkillDescriptionResponse> reorderedListResponse = new ArrayList<>();
+	for (SkillDescriptionDto skillDescriptionDto : reorderedList) {
+	    SkillDescriptionResponse skillDescriptionResponse = modelMapper.map(skillDescriptionDto,
+		    SkillDescriptionResponse.class);
+	    reorderedListResponse.add(skillDescriptionResponse);
+	}
+
+	return reorderedListResponse;
     }
 }

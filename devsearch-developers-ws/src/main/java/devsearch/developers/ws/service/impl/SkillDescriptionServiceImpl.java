@@ -1,5 +1,7 @@
 package devsearch.developers.ws.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,5 +115,28 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    currentEntity.setPosition(i);
 	    skillDescriptionRepository.save(currentEntity);
 	}
+    }
+
+    @Override
+    public List<SkillDescriptionDto> updateSkillDescriptionOrder(String username, List<SkillDescriptionDto> tags)
+	    throws RestApiDevelopersException {
+	DeveloperEntity developerEntity = developerRepository.findByUsername(username);
+	List<SkillDescriptionDto> finalReorderedList = new ArrayList<>();
+	for (int i = 0; i < tags.size(); i++) {
+	    String skillName = tags.get(i).getSkill().getSkillName();
+	    Optional<SkillDescriptionEntity> result = developerEntity.getSkillDescriptions()
+		    .stream()
+		    .filter(s -> s.getSkill().getSkillName().equals(skillName))
+		    .findFirst();
+	    SkillDescriptionEntity skillDescriptionEntity = result.get();
+	    skillDescriptionEntity.setPosition(i);
+	    SkillDescriptionEntity updatedSkillDescriptionEntity = skillDescriptionRepository
+		    .save(skillDescriptionEntity);
+	    SkillDescriptionDto updatedSkillDescriptionDto = modelMapper.map(updatedSkillDescriptionEntity,
+		    SkillDescriptionDto.class);
+	    finalReorderedList.add(updatedSkillDescriptionDto);
+	}
+
+	return finalReorderedList;
     }
 }

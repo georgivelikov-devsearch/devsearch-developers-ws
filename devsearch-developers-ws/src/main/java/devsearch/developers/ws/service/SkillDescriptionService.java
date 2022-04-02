@@ -1,5 +1,7 @@
 package devsearch.developers.ws.service;
 
+import java.util.List;
+
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
 
@@ -14,4 +16,7 @@ public interface SkillDescriptionService {
 	    throws RestApiDevelopersException;
 
     public void deleteSkillDescription(String username, String skillDescriptionId) throws RestApiDevelopersException;
+
+    public List<SkillDescriptionDto> updateSkillDescriptionOrder(String username, List<SkillDescriptionDto> tags)
+	    throws RestApiDevelopersException;
 }
