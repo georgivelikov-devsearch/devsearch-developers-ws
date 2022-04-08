@@ -17,7 +17,6 @@ import devsearch.developers.ws.io.repository.SkillDescriptionRepository;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillDescriptionService;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
-import devsearch.developers.ws.shared.utils.AppConstants;
 import devsearch.developers.ws.shared.utils.Mapper;
 import devsearch.developers.ws.shared.utils.Utils;
 
@@ -64,7 +63,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	SkillDescriptionEntity skillDescriptionEntity = modelMapper.map(skillDescriptionDto,
 		SkillDescriptionEntity.class);
 
-	skillDescriptionEntity.setSkillDescriptionId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
+	skillDescriptionEntity.setSkillDescriptionId(utils.generatePublicId());
 
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillDescriptionDto.getSkill().getSkillId());
 	skillDescriptionEntity.setSkill(skillEntity);

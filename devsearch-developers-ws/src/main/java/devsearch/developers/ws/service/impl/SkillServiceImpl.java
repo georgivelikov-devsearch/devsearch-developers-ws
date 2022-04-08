@@ -10,7 +10,6 @@ import devsearch.developers.ws.io.entity.SkillEntity;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillService;
 import devsearch.developers.ws.shared.dto.SkillDto;
-import devsearch.developers.ws.shared.utils.AppConstants;
 import devsearch.developers.ws.shared.utils.Mapper;
 import devsearch.developers.ws.shared.utils.Utils;
 
@@ -51,7 +50,7 @@ public class SkillServiceImpl implements SkillService {
 	SkillEntity skillEntity = skillRepository.findBySkillName(skillName);
 	if (skillEntity == null) {
 	    skillEntity = new SkillEntity();
-	    skillEntity.setSkillId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
+	    skillEntity.setSkillId(utils.generatePublicId());
 	    skillEntity.setSkillName(skillName);
 	    skillEntity.setSkillDescriptions(new HashSet<>());
 	    skillRepository.save(skillEntity);

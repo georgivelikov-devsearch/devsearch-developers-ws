@@ -12,6 +12,10 @@ public class Utils {
     private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final Random RANDOM = new SecureRandom();
 
+    public String generatePublicId() {
+	return generatePublicId(AppConstants.PUBLIC_ID_LENGTH);
+    }
+
     public String generatePublicId(int length) {
 	return generateRandomString(length);
     }

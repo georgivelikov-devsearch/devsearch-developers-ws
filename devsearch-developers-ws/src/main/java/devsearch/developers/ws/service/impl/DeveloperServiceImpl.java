@@ -16,7 +16,6 @@ import devsearch.developers.ws.io.repository.DeveloperRepository;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
-import devsearch.developers.ws.shared.utils.AppConstants;
 import devsearch.developers.ws.shared.utils.Mapper;
 import devsearch.developers.ws.shared.utils.Utils;
 
@@ -63,7 +62,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER);
 	}
 
-	developerDto.setDeveloperId(utils.generatePublicId(AppConstants.PRIVATE_ID_LENGTH));
+	developerDto.setDeveloperId(utils.generatePublicId());
 	developerDto.setUsername(username);
 
 	developerEntity = modelMapper.map(developerDto, DeveloperEntity.class);
