@@ -14,18 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import devsearch.common.utils.Utils;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.service.SkillDescriptionService;
 import devsearch.developers.ws.service.SkillService;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
 import devsearch.developers.ws.shared.dto.SkillDto;
+import devsearch.developers.ws.shared.mapper.ModelMapper;
 import devsearch.developers.ws.ui.model.request.SkillDescriptionRequest;
 import devsearch.developers.ws.ui.model.response.SkillDescriptionResponse;
 
 @RestController
 @RequestMapping("skills")
 public class SkillDescriptionController {
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private SkillService skillService;
@@ -36,12 +39,12 @@ public class SkillDescriptionController {
     @PostMapping()
     public SkillDescriptionResponse createSkillDescription(@RequestBody SkillDescriptionRequest skillDescriptionRequest)
 	    throws RestApiDevelopersException {
-	SkillDescriptionDto skillDescriptionDto = Utils.map(skillDescriptionRequest, SkillDescriptionDto.class);
+	SkillDescriptionDto skillDescriptionDto = mapper.map(skillDescriptionRequest, SkillDescriptionDto.class);
 
 	// Create new skill if it does not exists
 	SkillDto skillDto = skillService.getSkillBySkillName(skillDescriptionRequest.getSkill().getSkillName());
 	if (skillDto == null) {
-	    SkillDto newSkillDto = Utils.map(skillDescriptionRequest.getSkill(), SkillDto.class);
+	    SkillDto newSkillDto = mapper.map(skillDescriptionRequest.getSkill(), SkillDto.class);
 	    skillDto = skillService.createSkill(newSkillDto);
 	}
 
@@ -49,13 +52,13 @@ public class SkillDescriptionController {
 
 	SkillDescriptionDto newSkillDescriptionDto = skillDescriptionService
 		.createSkillDescription(skillDescriptionDto);
-	return Utils.map(newSkillDescriptionDto, SkillDescriptionResponse.class);
+	return mapper.map(newSkillDescriptionDto, SkillDescriptionResponse.class);
     }
 
     @PutMapping()
     public SkillDescriptionResponse updateSkillDescription(@RequestBody SkillDescriptionRequest skillDescriptionRequest)
 	    throws RestApiDevelopersException {
-	SkillDescriptionDto skillDescriptionDto = Utils.map(skillDescriptionRequest, SkillDescriptionDto.class);
+	SkillDescriptionDto skillDescriptionDto = mapper.map(skillDescriptionRequest, SkillDescriptionDto.class);
 
 	// Create new skill if it does not exists
 	SkillDto skillDto = skillService.getSkillBySkillName(skillDescriptionRequest.getSkill().getSkillName());
@@ -65,7 +68,7 @@ public class SkillDescriptionController {
 
 	SkillDescriptionDto editedSkillDescriptionDto = skillDescriptionService
 		.updateSkillDescription(skillDescriptionDto);
-	return Utils.map(editedSkillDescriptionDto, SkillDescriptionResponse.class);
+	return mapper.map(editedSkillDescriptionDto, SkillDescriptionResponse.class);
     }
 
     @DeleteMapping(path = "/{username}/{skillDescriptionId}")
@@ -82,7 +85,7 @@ public class SkillDescriptionController {
 
 	List<SkillDescriptionDto> tagsDto = new ArrayList<>();
 	for (SkillDescriptionRequest tag : tags) {
-	    SkillDescriptionDto tagDto = Utils.map(tag, SkillDescriptionDto.class);
+	    SkillDescriptionDto tagDto = mapper.map(tag, SkillDescriptionDto.class);
 	    tagsDto.add(tagDto);
 	}
 
@@ -91,7 +94,7 @@ public class SkillDescriptionController {
 
 	List<SkillDescriptionResponse> reorderedListResponse = new ArrayList<>();
 	for (SkillDescriptionDto skillDescriptionDto : reorderedList) {
-	    SkillDescriptionResponse skillDescriptionResponse = Utils.map(skillDescriptionDto,
+	    SkillDescriptionResponse skillDescriptionResponse = mapper.map(skillDescriptionDto,
 		    SkillDescriptionResponse.class);
 	    reorderedListResponse.add(skillDescriptionResponse);
 	}

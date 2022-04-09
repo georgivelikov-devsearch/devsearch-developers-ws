@@ -17,12 +17,16 @@ import devsearch.developers.ws.io.repository.DeveloperRepository;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
+import devsearch.developers.ws.shared.mapper.ModelMapper;
 
 @Service
 public class DeveloperServiceImpl implements DeveloperService {
 
     @Autowired
     private DeveloperRepository developerRepository;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public DeveloperDto getDeveloperByDeveloperId(String developerId) {
@@ -32,7 +36,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    return null;
 	}
 
-	return Utils.map(developerEntity, DeveloperDto.class);
+	return mapper.map(developerEntity, DeveloperDto.class);
     }
 
     @Override
@@ -43,7 +47,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    return null;
 	}
 
-	return Utils.map(developerEntity, DeveloperDto.class);
+	return mapper.map(developerEntity, DeveloperDto.class);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	developerDto.setDeveloperId(Utils.generatePublicId());
 	developerDto.setUsername(username);
 
-	developerEntity = Utils.map(developerDto, DeveloperEntity.class);
+	developerEntity = mapper.map(developerDto, DeveloperEntity.class);
 
 	DeveloperEntity storedDeveloperEntity = null;
 	try {
@@ -67,7 +71,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.CREATE_RECORD_FAILED, ex.getMessage());
 	}
 
-	return Utils.map(storedDeveloperEntity, DeveloperDto.class);
+	return mapper.map(storedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
@@ -101,7 +105,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.UPDATE_RECORD_FAILED, ex.getMessage());
 	}
 
-	return Utils.map(updatedDeveloperEntity, DeveloperDto.class);
+	return mapper.map(updatedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
@@ -138,7 +142,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
 	List<DeveloperDto> developerDtoList = new ArrayList<>();
 	for (DeveloperEntity developerEntity : developers) {
-	    DeveloperDto developerDto = Utils.map(developerEntity, DeveloperDto.class);
+	    DeveloperDto developerDto = mapper.map(developerEntity, DeveloperDto.class);
 	    developerDtoList.add(developerDto);
 	}
 
@@ -152,7 +156,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     public void initialSeed(List<DeveloperDto> developersDto) throws RestApiDevelopersException {
 	List<DeveloperEntity> developers = new ArrayList<>();
 	for (DeveloperDto developerDto : developersDto) {
-	    DeveloperEntity developerEntity = Utils.map(developerDto, DeveloperEntity.class);
+	    DeveloperEntity developerEntity = mapper.map(developerDto, DeveloperEntity.class);
 	    developers.add(developerEntity);
 	}
 

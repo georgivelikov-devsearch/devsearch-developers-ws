@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import devsearch.common.utils.Utils;
 import devsearch.developers.ws.client.ImageClient;
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
+import devsearch.developers.ws.shared.mapper.ModelMapper;
 import devsearch.developers.ws.ui.model.request.DeveloperImageRequest;
 import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
@@ -35,6 +35,9 @@ import devsearch.developers.ws.ui.model.response.ImageResponse;
 @RestController
 @RequestMapping("developers")
 public class DeveloperController {
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private DeveloperService developerService;
@@ -73,7 +76,7 @@ public class DeveloperController {
 	    }
 	}
 
-	return Utils.map(developerDto, DeveloperResponse.class);
+	return mapper.map(developerDto, DeveloperResponse.class);
     }
 
     @GetMapping(path = "/public/user/{username}")
@@ -84,7 +87,7 @@ public class DeveloperController {
 	    throw new RestApiDevelopersException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
 	}
 
-	return Utils.map(developerDto, DeveloperPublicResponse.class);
+	return mapper.map(developerDto, DeveloperPublicResponse.class);
     }
 
     @GetMapping("/public/all")
@@ -103,7 +106,7 @@ public class DeveloperController {
 	DeveloperListDto developers = developerService.getDevelopers(page, limit, searchText);
 	Collection<DeveloperPublicResponse> responseDevelopers = new ArrayList<DeveloperPublicResponse>();
 	for (DeveloperDto developer : developers.getDevelopers()) {
-	    DeveloperPublicResponse publicDeveloper = Utils.map(developer, DeveloperPublicResponse.class);
+	    DeveloperPublicResponse publicDeveloper = mapper.map(developer, DeveloperPublicResponse.class);
 	    responseDevelopers.add(publicDeveloper);
 	}
 
@@ -117,16 +120,16 @@ public class DeveloperController {
     @PostMapping(path = "/user/{username}")
     public DeveloperResponse createDeveloper(@RequestBody DeveloperRequest developerRequest)
 	    throws RestApiDevelopersException {
-	DeveloperDto developerDto = Utils.map(developerRequest, DeveloperDto.class);
+	DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
 	DeveloperDto createdDeveloper = developerService.createDeveloper(developerDto);
 
-	return Utils.map(createdDeveloper, DeveloperResponse.class);
+	return mapper.map(createdDeveloper, DeveloperResponse.class);
     }
 
     @PutMapping(path = "/user/{username}")
     public DeveloperResponse updateDeveloper(@RequestBody DeveloperRequest developerRequest)
 	    throws RestApiDevelopersException {
-	DeveloperDto developerDto = Utils.map(developerRequest, DeveloperDto.class);
+	DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
 
 	if (developerDto.isNewDeveloperPictureUpload()) {
 	    DeveloperImageRequest imageRequest = new DeveloperImageRequest();
@@ -140,7 +143,7 @@ public class DeveloperController {
 
 	DeveloperDto updatedDeveloper = developerService.updateDeveloper(developerDto);
 
-	return Utils.map(updatedDeveloper, DeveloperResponse.class);
+	return mapper.map(updatedDeveloper, DeveloperResponse.class);
     }
 
     @PostMapping("/initial")
@@ -149,7 +152,7 @@ public class DeveloperController {
 
 	List<DeveloperDto> developersDto = new ArrayList<>();
 	for (DeveloperRequest developerRequest : developerRequests) {
-	    DeveloperDto developerDto = Utils.map(developerRequest, DeveloperDto.class);
+	    DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
 	    developersDto.add(developerDto);
 	}
 

@@ -18,9 +18,13 @@ import devsearch.developers.ws.io.repository.SkillDescriptionRepository;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillDescriptionService;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
+import devsearch.developers.ws.shared.mapper.ModelMapper;
 
 @Service
 public class SkillDescriptionServiceImpl implements SkillDescriptionService {
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -36,7 +40,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	SkillDescriptionEntity skillDescriptionEntity = skillDescriptionRepository
 		.findBySkillDescriptionId(skillDescriptionId);
 
-	return Utils.map(skillDescriptionEntity, SkillDescriptionDto.class);
+	return mapper.map(skillDescriptionEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    throw new RestApiDevelopersException("Skill with that name already exists!");
 	}
 
-	SkillDescriptionEntity skillDescriptionEntity = Utils.map(skillDescriptionDto, SkillDescriptionEntity.class);
+	SkillDescriptionEntity skillDescriptionEntity = mapper.map(skillDescriptionDto, SkillDescriptionEntity.class);
 
 	skillDescriptionEntity.setSkillDescriptionId(Utils.generatePublicId());
 
@@ -67,7 +71,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
 
-	return Utils.map(storedEntity, SkillDescriptionDto.class);
+	return mapper.map(storedEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
 
-	return Utils.map(storedEntity, SkillDescriptionDto.class);
+	return mapper.map(storedEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -123,7 +127,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    skillDescriptionEntity.setPosition(i);
 	    SkillDescriptionEntity updatedSkillDescriptionEntity = skillDescriptionRepository
 		    .save(skillDescriptionEntity);
-	    SkillDescriptionDto updatedSkillDescriptionDto = Utils.map(updatedSkillDescriptionEntity,
+	    SkillDescriptionDto updatedSkillDescriptionDto = mapper.map(updatedSkillDescriptionEntity,
 		    SkillDescriptionDto.class);
 	    finalReorderedList.add(updatedSkillDescriptionDto);
 	}

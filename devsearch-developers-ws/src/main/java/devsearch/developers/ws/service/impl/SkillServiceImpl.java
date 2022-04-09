@@ -11,9 +11,13 @@ import devsearch.developers.ws.io.entity.SkillEntity;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillService;
 import devsearch.developers.ws.shared.dto.SkillDto;
+import devsearch.developers.ws.shared.mapper.ModelMapper;
 
 @Service
 public class SkillServiceImpl implements SkillService {
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -22,7 +26,7 @@ public class SkillServiceImpl implements SkillService {
     public SkillDto getSkillBySkillId(String skillId) {
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillId);
 
-	return Utils.map(skillEntity, SkillDto.class);
+	return mapper.map(skillEntity, SkillDto.class);
     }
 
     @Override
@@ -33,7 +37,7 @@ public class SkillServiceImpl implements SkillService {
 	    return null;
 	}
 
-	return Utils.map(skillEntity, SkillDto.class);
+	return mapper.map(skillEntity, SkillDto.class);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class SkillServiceImpl implements SkillService {
 	    skillRepository.save(skillEntity);
 	}
 
-	return Utils.map(skillEntity, SkillDto.class);
+	return mapper.map(skillEntity, SkillDto.class);
     }
 
 }
