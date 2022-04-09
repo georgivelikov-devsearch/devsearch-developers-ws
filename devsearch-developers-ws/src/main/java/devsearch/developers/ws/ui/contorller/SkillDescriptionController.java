@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import devsearch.developers.ws.exception.RestApiDevelopersException;
+import devsearch.common.exception.DevsearchApiException;
 import devsearch.developers.ws.service.SkillDescriptionService;
 import devsearch.developers.ws.service.SkillService;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
@@ -38,7 +38,7 @@ public class SkillDescriptionController {
 
     @PostMapping()
     public SkillDescriptionResponse createSkillDescription(@RequestBody SkillDescriptionRequest skillDescriptionRequest)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 	SkillDescriptionDto skillDescriptionDto = mapper.map(skillDescriptionRequest, SkillDescriptionDto.class);
 
 	// Create new skill if it does not exists
@@ -57,13 +57,13 @@ public class SkillDescriptionController {
 
     @PutMapping()
     public SkillDescriptionResponse updateSkillDescription(@RequestBody SkillDescriptionRequest skillDescriptionRequest)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 	SkillDescriptionDto skillDescriptionDto = mapper.map(skillDescriptionRequest, SkillDescriptionDto.class);
 
 	// Create new skill if it does not exists
 	SkillDto skillDto = skillService.getSkillBySkillName(skillDescriptionRequest.getSkill().getSkillName());
 	if (skillDto == null) {
-	    throw new RestApiDevelopersException("Skill does not exist");
+	    throw new DevsearchApiException("Skill does not exist");
 	}
 
 	SkillDescriptionDto editedSkillDescriptionDto = skillDescriptionService
@@ -73,7 +73,7 @@ public class SkillDescriptionController {
 
     @DeleteMapping(path = "/{username}/{skillDescriptionId}")
     public ResponseEntity<String> deleteSkillDescription(@PathVariable String username,
-	    @PathVariable String skillDescriptionId) throws RestApiDevelopersException {
+	    @PathVariable String skillDescriptionId) throws DevsearchApiException {
 	skillDescriptionService.deleteSkillDescription(username, skillDescriptionId);
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
@@ -81,7 +81,7 @@ public class SkillDescriptionController {
 
     @PutMapping(path = "/{username}/order")
     public List<SkillDescriptionResponse> updateSkillDescriptionOrder(@PathVariable String username,
-	    @RequestBody List<SkillDescriptionRequest> tags) throws RestApiDevelopersException {
+	    @RequestBody List<SkillDescriptionRequest> tags) throws DevsearchApiException {
 
 	List<SkillDescriptionDto> tagsDto = new ArrayList<>();
 	for (SkillDescriptionRequest tag : tags) {

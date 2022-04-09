@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import devsearch.common.exception.DevsearchApiException;
 import devsearch.common.utils.Utils;
 import devsearch.developers.ws.exception.ExceptionMessages;
-import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.DeveloperEntity;
 import devsearch.developers.ws.io.repository.DeveloperRepository;
 import devsearch.developers.ws.service.DeveloperService;
@@ -51,12 +51,12 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public DeveloperDto createDeveloper(DeveloperDto developerDto) throws RestApiDevelopersException {
+    public DeveloperDto createDeveloper(DeveloperDto developerDto) throws DevsearchApiException {
 	String username = developerDto.getUsername();
 
 	DeveloperEntity developerEntity = developerRepository.findByUsername(username);
 	if (developerEntity != null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER);
+	    throw new DevsearchApiException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER.toString());
 	}
 
 	developerDto.setDeveloperId(Utils.generatePublicId());
@@ -68,17 +68,17 @@ public class DeveloperServiceImpl implements DeveloperService {
 	try {
 	    storedDeveloperEntity = developerRepository.save(developerEntity);
 	} catch (Exception ex) {
-	    throw new RestApiDevelopersException(ExceptionMessages.CREATE_RECORD_FAILED, ex.getMessage());
+	    throw new DevsearchApiException(ExceptionMessages.CREATE_RECORD_FAILED.toString(), ex.getMessage());
 	}
 
 	return mapper.map(storedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
-    public DeveloperDto updateDeveloper(DeveloperDto developerDto) throws RestApiDevelopersException {
+    public DeveloperDto updateDeveloper(DeveloperDto developerDto) throws DevsearchApiException {
 	DeveloperEntity developerEntity = developerRepository.findByUsername(developerDto.getUsername());
 	if (developerEntity == null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
+	    throw new DevsearchApiException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID.toString());
 	}
 
 	developerEntity.setFirstName(developerDto.getFirstName());
@@ -102,30 +102,30 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    updatedDeveloperEntity = developerRepository.save(developerEntity);
 	} catch (Exception ex) {
 	    System.out.println(ex.getMessage());
-	    throw new RestApiDevelopersException(ExceptionMessages.UPDATE_RECORD_FAILED, ex.getMessage());
+	    throw new DevsearchApiException(ExceptionMessages.UPDATE_RECORD_FAILED.toString(), ex.getMessage());
 	}
 
 	return mapper.map(updatedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
-    public void deleteDeveloper(String developerId) throws RestApiDevelopersException {
+    public void deleteDeveloper(String developerId) throws DevsearchApiException {
 	// Check if underlying user is deleted?
 	DeveloperEntity developerEntity = developerRepository.findByDeveloperId(developerId);
 	if (developerEntity == null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID);
+	    throw new DevsearchApiException(ExceptionMessages.NO_RECORD_FOUND_WITH_THIS_ID.toString());
 	}
 
 	try {
 	    developerRepository.delete(developerEntity);
 	} catch (Exception ex) {
-	    throw new RestApiDevelopersException(ExceptionMessages.DELETE_RECORD_FAILED, ex.getMessage());
+	    throw new DevsearchApiException(ExceptionMessages.DELETE_RECORD_FAILED.toString(), ex.getMessage());
 	}
 
     }
 
     @Override
-    public DeveloperListDto getDevelopers(int page, int limit, String searchText) throws RestApiDevelopersException {
+    public DeveloperListDto getDevelopers(int page, int limit, String searchText) throws DevsearchApiException {
 	DeveloperListDto returnValue = new DeveloperListDto();
 	Pageable pageableRequest = PageRequest.of(page, limit);
 	Page<DeveloperEntity> developerListPage = null;
@@ -153,7 +153,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public void initialSeed(List<DeveloperDto> developersDto) throws RestApiDevelopersException {
+    public void initialSeed(List<DeveloperDto> developersDto) throws DevsearchApiException {
 	List<DeveloperEntity> developers = new ArrayList<>();
 	for (DeveloperDto developerDto : developersDto) {
 	    DeveloperEntity developerEntity = mapper.map(developerDto, DeveloperEntity.class);

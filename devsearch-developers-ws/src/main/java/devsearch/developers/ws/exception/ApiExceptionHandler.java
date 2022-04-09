@@ -1,7 +1,5 @@
 package devsearch.developers.ws.exception;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.http.HttpHeaders;
@@ -12,26 +10,30 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import devsearch.developers.ws.shared.utils.AppConstants;
+import devsearch.common.exception.DevsearchApiException;
+import devsearch.common.exception.ExceptionMessage;
+import devsearch.common.utils.Utils;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(value = RestApiDevelopersException.class)
-    public ResponseEntity<Object> handleRestApiException(RestApiDevelopersException ex, WebRequest request) {
-	DateFormat df = new SimpleDateFormat(AppConstants.DATE_FORMAT);
-	String dateStr = df.format(new Date());
-	ExceptionMessageRest exception = new ExceptionMessageRest(dateStr, getPath(request), getMethod(request),
-		ex.getMessage(), ex.getExceptionCode(), ex.getSourceExceptionMessage());
+    @ExceptionHandler(value = DevsearchApiException.class)
+    public ResponseEntity<Object> handleRestApiException(DevsearchApiException ex, WebRequest request) {
+	String dateStr = Utils.getDateString(new Date());
+	String path = getPath(request);
+	String method = getMethod(request);
+	ExceptionMessage exception = new ExceptionMessage(dateStr, path, method, ex.getMessage(), ex.getExceptionCode(),
+		ex.getSourceExceptionMessage());
 	return new ResponseEntity<>(exception, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Object> handleException(Exception ex, WebRequest request) {
-	DateFormat df = new SimpleDateFormat(AppConstants.DATE_FORMAT);
-	String dateStr = df.format(new Date());
-	ExceptionMessageRest exception = new ExceptionMessageRest(dateStr, getPath(request), getMethod(request),
-		ex.getMessage(), ExceptionMessages.INTERNAL_SERVER_ERROR.getExceptionCode());
+	String dateStr = Utils.getDateString(new Date());
+	String path = getPath(request);
+	String method = getMethod(request);
+	ExceptionMessage exception = new ExceptionMessage(dateStr, path, method, ex.getMessage(),
+		ExceptionMessages.INTERNAL_SERVER_ERROR.getExceptionCode());
 	return new ResponseEntity<>(exception, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

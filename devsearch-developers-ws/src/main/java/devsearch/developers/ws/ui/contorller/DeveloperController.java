@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import devsearch.common.exception.DevsearchApiException;
 import devsearch.developers.ws.client.ImageClient;
 import devsearch.developers.ws.exception.ExceptionMessages;
-import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
@@ -52,7 +52,7 @@ public class DeveloperController {
 
     @GetMapping(path = "/user/{username}")
     public DeveloperResponse getDeveloper(@PathVariable String username, @AuthenticationPrincipal Jwt jwt)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
 	if (developerDto == null) {
 	    // Username url param may be 'undefined' because of refresh page. Check jwt
@@ -80,11 +80,11 @@ public class DeveloperController {
     }
 
     @GetMapping(path = "/public/user/{username}")
-    public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws RestApiDevelopersException {
+    public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws DevsearchApiException {
 	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
 
 	if (developerDto == null) {
-	    throw new RestApiDevelopersException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER);
+	    throw new DevsearchApiException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER.toString());
 	}
 
 	return mapper.map(developerDto, DeveloperPublicResponse.class);
@@ -93,8 +93,7 @@ public class DeveloperController {
     @GetMapping("/public/all")
     public DeveloperListResponse getDeveloper(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
-	    @RequestParam(value = "searchText", defaultValue = "") String searchText)
-	    throws RestApiDevelopersException {
+	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws DevsearchApiException {
 
 	// In the Repository implementation pagination starts with '0', but in UI
 	// usually pages start from 1, 2, 3 etc. So UI will send the number of the page,
@@ -119,7 +118,7 @@ public class DeveloperController {
 
     @PostMapping(path = "/user/{username}")
     public DeveloperResponse createDeveloper(@RequestBody DeveloperRequest developerRequest)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 	DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
 	DeveloperDto createdDeveloper = developerService.createDeveloper(developerDto);
 
@@ -128,7 +127,7 @@ public class DeveloperController {
 
     @PutMapping(path = "/user/{username}")
     public DeveloperResponse updateDeveloper(@RequestBody DeveloperRequest developerRequest)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 	DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
 
 	if (developerDto.isNewDeveloperPictureUpload()) {
@@ -148,7 +147,7 @@ public class DeveloperController {
 
     @PostMapping("/initial")
     public ResponseEntity<String> initialSeed(@RequestBody List<DeveloperRequest> developerRequests)
-	    throws RestApiDevelopersException {
+	    throws DevsearchApiException {
 
 	List<DeveloperDto> developersDto = new ArrayList<>();
 	for (DeveloperRequest developerRequest : developerRequests) {

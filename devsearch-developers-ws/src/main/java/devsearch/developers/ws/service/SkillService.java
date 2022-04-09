@@ -1,6 +1,6 @@
 package devsearch.developers.ws.service;
 
-import devsearch.developers.ws.exception.RestApiDevelopersException;
+import devsearch.common.exception.DevsearchApiException;
 import devsearch.developers.ws.shared.dto.SkillDto;
 
 public interface SkillService {
@@ -9,6 +9,6 @@ public interface SkillService {
 
     public SkillDto getSkillBySkillName(String skillName);
 
-    public SkillDto createSkill(SkillDto skillDto) throws RestApiDevelopersException;
+    public SkillDto createSkill(SkillDto skillDto) throws DevsearchApiException;
 
 }

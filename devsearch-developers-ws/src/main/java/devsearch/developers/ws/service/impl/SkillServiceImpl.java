@@ -5,8 +5,8 @@ import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import devsearch.common.exception.DevsearchApiException;
 import devsearch.common.utils.Utils;
-import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.SkillEntity;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillService;
@@ -41,7 +41,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillDto createSkill(SkillDto skillDto) throws RestApiDevelopersException {
+    public SkillDto createSkill(SkillDto skillDto) throws DevsearchApiException {
 	String skillName = skillDto.getSkillName();
 
 	SkillEntity skillEntity = skillRepository.findBySkillName(skillName);
