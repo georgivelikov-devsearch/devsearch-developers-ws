@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import devsearch.common.utils.Utils;
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.DeveloperEntity;
@@ -16,20 +17,12 @@ import devsearch.developers.ws.io.repository.DeveloperRepository;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
-import devsearch.developers.ws.shared.utils.Mapper;
-import devsearch.developers.ws.shared.utils.Utils;
 
 @Service
 public class DeveloperServiceImpl implements DeveloperService {
 
     @Autowired
     private DeveloperRepository developerRepository;
-
-    @Autowired
-    private Mapper modelMapper;
-
-    @Autowired
-    private Utils utils;
 
     @Override
     public DeveloperDto getDeveloperByDeveloperId(String developerId) {
@@ -39,7 +32,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    return null;
 	}
 
-	return modelMapper.map(developerEntity, DeveloperDto.class);
+	return Utils.map(developerEntity, DeveloperDto.class);
     }
 
     @Override
@@ -50,7 +43,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    return null;
 	}
 
-	return modelMapper.map(developerEntity, DeveloperDto.class);
+	return Utils.map(developerEntity, DeveloperDto.class);
     }
 
     @Override
@@ -62,10 +55,10 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER);
 	}
 
-	developerDto.setDeveloperId(utils.generatePublicId());
+	developerDto.setDeveloperId(Utils.generatePublicId());
 	developerDto.setUsername(username);
 
-	developerEntity = modelMapper.map(developerDto, DeveloperEntity.class);
+	developerEntity = Utils.map(developerDto, DeveloperEntity.class);
 
 	DeveloperEntity storedDeveloperEntity = null;
 	try {
@@ -74,7 +67,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.CREATE_RECORD_FAILED, ex.getMessage());
 	}
 
-	return modelMapper.map(storedDeveloperEntity, DeveloperDto.class);
+	return Utils.map(storedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
@@ -108,7 +101,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new RestApiDevelopersException(ExceptionMessages.UPDATE_RECORD_FAILED, ex.getMessage());
 	}
 
-	return modelMapper.map(updatedDeveloperEntity, DeveloperDto.class);
+	return Utils.map(updatedDeveloperEntity, DeveloperDto.class);
     }
 
     @Override
@@ -145,7 +138,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
 	List<DeveloperDto> developerDtoList = new ArrayList<>();
 	for (DeveloperEntity developerEntity : developers) {
-	    DeveloperDto developerDto = modelMapper.map(developerEntity, DeveloperDto.class);
+	    DeveloperDto developerDto = Utils.map(developerEntity, DeveloperDto.class);
 	    developerDtoList.add(developerDto);
 	}
 
@@ -159,7 +152,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     public void initialSeed(List<DeveloperDto> developersDto) throws RestApiDevelopersException {
 	List<DeveloperEntity> developers = new ArrayList<>();
 	for (DeveloperDto developerDto : developersDto) {
-	    DeveloperEntity developerEntity = modelMapper.map(developerDto, DeveloperEntity.class);
+	    DeveloperEntity developerEntity = Utils.map(developerDto, DeveloperEntity.class);
 	    developers.add(developerEntity);
 	}
 

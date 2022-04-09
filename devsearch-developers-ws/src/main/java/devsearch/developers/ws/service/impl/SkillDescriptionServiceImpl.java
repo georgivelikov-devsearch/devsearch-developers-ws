@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import devsearch.common.utils.Utils;
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.DeveloperEntity;
@@ -17,8 +18,6 @@ import devsearch.developers.ws.io.repository.SkillDescriptionRepository;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillDescriptionService;
 import devsearch.developers.ws.shared.dto.SkillDescriptionDto;
-import devsearch.developers.ws.shared.utils.Mapper;
-import devsearch.developers.ws.shared.utils.Utils;
 
 @Service
 public class SkillDescriptionServiceImpl implements SkillDescriptionService {
@@ -32,18 +31,12 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
     @Autowired
     private DeveloperRepository developerRepository;
 
-    @Autowired
-    private Mapper modelMapper;
-
-    @Autowired
-    private Utils utils;
-
     @Override
     public SkillDescriptionDto getSkillDescriptionBySkillDescriptionId(String skillDescriptionId) {
 	SkillDescriptionEntity skillDescriptionEntity = skillDescriptionRepository
 		.findBySkillDescriptionId(skillDescriptionId);
 
-	return modelMapper.map(skillDescriptionEntity, SkillDescriptionDto.class);
+	return Utils.map(skillDescriptionEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -60,10 +53,9 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    throw new RestApiDevelopersException("Skill with that name already exists!");
 	}
 
-	SkillDescriptionEntity skillDescriptionEntity = modelMapper.map(skillDescriptionDto,
-		SkillDescriptionEntity.class);
+	SkillDescriptionEntity skillDescriptionEntity = Utils.map(skillDescriptionDto, SkillDescriptionEntity.class);
 
-	skillDescriptionEntity.setSkillDescriptionId(utils.generatePublicId());
+	skillDescriptionEntity.setSkillDescriptionId(Utils.generatePublicId());
 
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillDescriptionDto.getSkill().getSkillId());
 	skillDescriptionEntity.setSkill(skillEntity);
@@ -75,7 +67,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
 
-	return modelMapper.map(storedEntity, SkillDescriptionDto.class);
+	return Utils.map(storedEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -88,7 +80,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
 	SkillDescriptionEntity storedEntity = skillDescriptionRepository.save(skillDescriptionEntity);
 
-	return modelMapper.map(storedEntity, SkillDescriptionDto.class);
+	return Utils.map(storedEntity, SkillDescriptionDto.class);
     }
 
     @Override
@@ -131,7 +123,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    skillDescriptionEntity.setPosition(i);
 	    SkillDescriptionEntity updatedSkillDescriptionEntity = skillDescriptionRepository
 		    .save(skillDescriptionEntity);
-	    SkillDescriptionDto updatedSkillDescriptionDto = modelMapper.map(updatedSkillDescriptionEntity,
+	    SkillDescriptionDto updatedSkillDescriptionDto = Utils.map(updatedSkillDescriptionEntity,
 		    SkillDescriptionDto.class);
 	    finalReorderedList.add(updatedSkillDescriptionDto);
 	}

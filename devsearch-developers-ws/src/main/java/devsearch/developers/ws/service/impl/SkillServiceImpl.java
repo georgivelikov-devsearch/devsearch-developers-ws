@@ -5,13 +5,12 @@ import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import devsearch.common.utils.Utils;
 import devsearch.developers.ws.exception.RestApiDevelopersException;
 import devsearch.developers.ws.io.entity.SkillEntity;
 import devsearch.developers.ws.io.repository.SkillRepository;
 import devsearch.developers.ws.service.SkillService;
 import devsearch.developers.ws.shared.dto.SkillDto;
-import devsearch.developers.ws.shared.utils.Mapper;
-import devsearch.developers.ws.shared.utils.Utils;
 
 @Service
 public class SkillServiceImpl implements SkillService {
@@ -19,17 +18,11 @@ public class SkillServiceImpl implements SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
-    @Autowired
-    private Mapper modelMapper;
-
-    @Autowired
-    private Utils utils;
-
     @Override
     public SkillDto getSkillBySkillId(String skillId) {
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillId);
 
-	return modelMapper.map(skillEntity, SkillDto.class);
+	return Utils.map(skillEntity, SkillDto.class);
     }
 
     @Override
@@ -40,7 +33,7 @@ public class SkillServiceImpl implements SkillService {
 	    return null;
 	}
 
-	return modelMapper.map(skillEntity, SkillDto.class);
+	return Utils.map(skillEntity, SkillDto.class);
     }
 
     @Override
@@ -50,13 +43,13 @@ public class SkillServiceImpl implements SkillService {
 	SkillEntity skillEntity = skillRepository.findBySkillName(skillName);
 	if (skillEntity == null) {
 	    skillEntity = new SkillEntity();
-	    skillEntity.setSkillId(utils.generatePublicId());
+	    skillEntity.setSkillId(Utils.generatePublicId());
 	    skillEntity.setSkillName(skillName);
 	    skillEntity.setSkillDescriptions(new HashSet<>());
 	    skillRepository.save(skillEntity);
 	}
 
-	return modelMapper.map(skillEntity, SkillDto.class);
+	return Utils.map(skillEntity, SkillDto.class);
     }
 
 }
