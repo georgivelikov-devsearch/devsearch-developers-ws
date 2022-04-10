@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import devsearch.common.exception.DevsearchApiException;
 import devsearch.developers.ws.client.ImageClient;
 import devsearch.developers.ws.exception.ExceptionMessages;
+import devsearch.developers.ws.security.jwt.JwtService;
 import devsearch.developers.ws.service.DeveloperService;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
@@ -37,13 +38,16 @@ import devsearch.developers.ws.ui.model.response.ImageResponse;
 public class DeveloperController {
 
     @Autowired
-    private ModelMapper mapper;
-
-    @Autowired
     private DeveloperService developerService;
 
     @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     private ImageClient imageClient;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @GetMapping(path = "/status")
     public String status() {
@@ -57,15 +61,15 @@ public class DeveloperController {
 	if (developerDto == null) {
 	    // Username url param may be 'undefined' because of refresh page. Check jwt
 	    // username
-	    String preferredUsername = jwt.getClaimAsString("preferred_username");
+	    String preferredUsername = jwtService.getUsername(jwt);
 	    developerDto = developerService.getDeveloperByUsername(preferredUsername);
 
 	    if (developerDto == null) {
 		// Developer profile for the currently logged in user does not exist.
 		// User is checking the profile for the first time ever.
-		String firstName = jwt.getClaimAsString("given_name");
-		String lastName = jwt.getClaimAsString("family_name");
-		String contactEmail = jwt.getClaimAsString("email");
+		String firstName = jwtService.getFirstName(jwt);
+		String lastName = jwtService.getLastName(jwt);
+		String contactEmail = jwtService.getContactEmail(jwt);
 
 		developerDto = new DeveloperDto();
 		developerDto.setUsername(preferredUsername);
