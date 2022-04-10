@@ -95,7 +95,7 @@ public class DeveloperController {
     }
 
     @GetMapping("/public/all")
-    public DeveloperListResponse getDeveloper(@RequestParam(value = "page", defaultValue = "1") int page,
+    public DeveloperListResponse getDevelopers(@RequestParam(value = "page", defaultValue = "1") int page,
 	    @RequestParam(value = "limit", defaultValue = "6") int limit,
 	    @RequestParam(value = "searchText", defaultValue = "") String searchText) throws DevsearchApiException {
 
