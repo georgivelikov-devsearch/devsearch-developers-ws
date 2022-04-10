@@ -47,7 +47,7 @@ public class SkillServiceImpl implements SkillService {
 	SkillEntity skillEntity = skillRepository.findBySkillName(skillName);
 	if (skillEntity == null) {
 	    skillEntity = new SkillEntity();
-	    skillEntity.setSkillId(Utils.generatePublicId());
+	    skillEntity.setSkillId(Utils.generateId());
 	    skillEntity.setSkillName(skillName);
 	    skillEntity.setSkillDescriptions(new HashSet<>());
 	    skillRepository.save(skillEntity);

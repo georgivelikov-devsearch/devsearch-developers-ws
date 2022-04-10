@@ -59,7 +59,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	    throw new DevsearchApiException(ExceptionMessages.PROFILE_ALREADY_EXISTS_FOR_THIS_USER.toString());
 	}
 
-	developerDto.setDeveloperId(Utils.generatePublicId());
+	developerDto.setDeveloperId(Utils.generateId());
 	developerDto.setUsername(username);
 
 	developerEntity = mapper.map(developerDto, DeveloperEntity.class);

@@ -59,7 +59,7 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 
 	SkillDescriptionEntity skillDescriptionEntity = mapper.map(skillDescriptionDto, SkillDescriptionEntity.class);
 
-	skillDescriptionEntity.setSkillDescriptionId(Utils.generatePublicId());
+	skillDescriptionEntity.setSkillDescriptionId(Utils.generateId());
 
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillDescriptionDto.getSkill().getSkillId());
 	skillDescriptionEntity.setSkill(skillEntity);
