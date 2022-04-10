@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
+import devsearch.developers.ws.security.jwt.KeycloakRoleConverter;
+
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -15,10 +17,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+	// delegate custom ROLE converter
 	JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-	// jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new
-	// KeycloakRoleConverter()); // delegate to custom
-	// converter
+	jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
 	http.csrf()
 		.disable() // Disable CSRF is needed for POST requests!!!
