@@ -29,7 +29,6 @@ import devsearch.developers.ws.shared.mapper.ModelMapper;
 import devsearch.developers.ws.ui.model.request.DeveloperImageRequest;
 import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
-import devsearch.developers.ws.ui.model.response.DeveloperPublicResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperResponse;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
 
@@ -84,14 +83,18 @@ public class DeveloperController {
     }
 
     @GetMapping(path = "/public/user/{username}")
-    public DeveloperPublicResponse getPublicDeveloper(@PathVariable String username) throws DevsearchApiException {
+    public DeveloperResponse getPublicDeveloper(@PathVariable String username) throws DevsearchApiException {
 	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
 
 	if (developerDto == null) {
 	    throw new DevsearchApiException(ExceptionMessages.NO_PFOFILE_FOUND_FOR_THIS_USER.toString());
 	}
 
-	return mapper.map(developerDto, DeveloperPublicResponse.class);
+	DeveloperResponse developerResponse = mapper.map(developerDto, DeveloperResponse.class);
+	// Removing developerId from public data
+	developerResponse.setDeveloperId(null);
+
+	return developerResponse;
     }
 
     @GetMapping("/public/all")
@@ -106,16 +109,18 @@ public class DeveloperController {
 	    page -= 1;
 	}
 
-	DeveloperListDto developers = developerService.getDevelopers(page, limit, searchText);
-	Collection<DeveloperPublicResponse> responseDevelopers = new ArrayList<DeveloperPublicResponse>();
-	for (DeveloperDto developer : developers.getDevelopers()) {
-	    DeveloperPublicResponse publicDeveloper = mapper.map(developer, DeveloperPublicResponse.class);
-	    responseDevelopers.add(publicDeveloper);
+	DeveloperListDto developersDto = developerService.getDevelopers(page, limit, searchText);
+	Collection<DeveloperResponse> developersResponse = new ArrayList<DeveloperResponse>();
+	for (DeveloperDto developer : developersDto.getDevelopers()) {
+	    DeveloperResponse developerResponse = mapper.map(developer, DeveloperResponse.class);
+	    // Removing developerId from public data
+	    developerResponse.setDeveloperId(null);
+	    developersResponse.add(developerResponse);
 	}
 
 	DeveloperListResponse response = new DeveloperListResponse();
-	response.setTotalPages(developers.getTotalPages());
-	response.setDevelopers(responseDevelopers);
+	response.setTotalPages(developersDto.getTotalPages());
+	response.setDevelopers(developersResponse);
 
 	return response;
     }
