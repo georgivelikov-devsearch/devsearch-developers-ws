@@ -57,9 +57,10 @@ public class SkillDescriptionServiceImpl implements SkillDescriptionService {
 	    throw new DevsearchApiException("Skill with that name already exists!");
 	}
 
-	SkillDescriptionEntity skillDescriptionEntity = mapper.map(skillDescriptionDto, SkillDescriptionEntity.class);
+	skillDescriptionDto.setSkillDescriptionId(Utils.generateId());
+	skillDescriptionDto.setPublicKey(Utils.generatePublicKey());
 
-	skillDescriptionEntity.setSkillDescriptionId(Utils.generateId());
+	SkillDescriptionEntity skillDescriptionEntity = mapper.map(skillDescriptionDto, SkillDescriptionEntity.class);
 
 	SkillEntity skillEntity = skillRepository.findBySkillId(skillDescriptionDto.getSkill().getSkillId());
 	skillDescriptionEntity.setSkill(skillEntity);

@@ -60,6 +60,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 	}
 
 	developerDto.setDeveloperId(Utils.generateId());
+	developerDto.setPublicKey(Utils.generatePublicKey());
 	developerDto.setUsername(username);
 
 	developerEntity = mapper.map(developerDto, DeveloperEntity.class);
