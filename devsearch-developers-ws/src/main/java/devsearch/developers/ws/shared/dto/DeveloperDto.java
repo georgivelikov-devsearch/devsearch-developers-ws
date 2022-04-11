@@ -22,6 +22,7 @@ public class DeveloperDto {
     private String developerPictureBase64;
     private boolean newDeveloperPictureUpload;
     private List<SkillDescriptionDto> skillDescriptions;
+    private String publicKey;
 
     public String getDeveloperId() {
 	return developerId;
@@ -165,5 +166,13 @@ public class DeveloperDto {
 
     public void setSkillDescriptions(List<SkillDescriptionDto> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 }

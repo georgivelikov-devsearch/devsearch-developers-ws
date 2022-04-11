@@ -18,6 +18,7 @@ public class DeveloperRequest {
     private String locationCountry;
     private String developerPictureBase64;
     private boolean newDeveloperPictureUpload;
+    private String publicKey;
 
     public String getDeveloperId() {
 	return developerId;
@@ -145,5 +146,13 @@ public class DeveloperRequest {
 
     public void setNewDeveloperPictureUpload(boolean newDeveloperPictureUpload) {
 	this.newDeveloperPictureUpload = newDeveloperPictureUpload;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 }

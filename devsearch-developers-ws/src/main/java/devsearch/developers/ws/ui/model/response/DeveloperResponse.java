@@ -20,6 +20,7 @@ public class DeveloperResponse {
     private String locationCountry;
     private String developerPictureUrl;
     private List<SkillDescriptionResponse> skillDescriptions;
+    private String publicKey;
 
     public String getDeveloperId() {
 	return developerId;
@@ -147,5 +148,13 @@ public class DeveloperResponse {
 
     public void setSkillDescriptions(List<SkillDescriptionResponse> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 }

@@ -21,7 +21,7 @@ public class DeveloperEntity implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 30)
     private String developerId;
 
     @Column(nullable = false, unique = true)
@@ -71,6 +71,9 @@ public class DeveloperEntity implements Serializable {
 
     @OneToMany(mappedBy = "developer")
     private List<SkillDescriptionEntity> skillDescriptions;
+
+    @Column(nullable = false, unique = true, length = 30)
+    private String publicKey;
 
     public long getId() {
 	return id;
@@ -206,5 +209,13 @@ public class DeveloperEntity implements Serializable {
 
     public void setSkillDescriptions(List<SkillDescriptionEntity> skillDescriptions) {
 	this.skillDescriptions = skillDescriptions;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 }
