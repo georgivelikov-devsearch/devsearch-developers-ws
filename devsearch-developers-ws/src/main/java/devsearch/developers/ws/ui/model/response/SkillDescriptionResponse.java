@@ -12,6 +12,8 @@ public class SkillDescriptionResponse {
 
     private int position;
 
+    private String publicKey;
+
     public String getSkillDescriptionId() {
 	return skillDescriptionId;
     }
@@ -42,5 +44,13 @@ public class SkillDescriptionResponse {
 
     public void setPosition(int position) {
 	this.position = position;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 }

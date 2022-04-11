@@ -21,7 +21,7 @@ public class SkillDescriptionEntity implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 30)
     private String skillDescriptionId;
 
     @Column(nullable = false)
@@ -38,6 +38,9 @@ public class SkillDescriptionEntity implements Serializable {
 
     @Column(nullable = false)
     private int position;
+
+    @Column(nullable = false, unique = true, length = 30)
+    private String publicKey;
 
     public long getId() {
 	return id;
@@ -85,6 +88,14 @@ public class SkillDescriptionEntity implements Serializable {
 
     public void setPosition(int position) {
 	this.position = position;
+    }
+
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
     }
 
 }
