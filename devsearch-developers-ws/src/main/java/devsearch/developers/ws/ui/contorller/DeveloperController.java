@@ -86,7 +86,7 @@ public class DeveloperController {
 
 	DeveloperResponse developerResponse = mapper.map(developerDto, DeveloperResponse.class);
 
-	List<ProjectResponse> projects = projectsClient.getProjectsForDeveloper(developerResponse.getDeveloperId())
+	List<ProjectResponse> projects = projectsClient.getProjectsForDeveloper(developerResponse.getUsername())
 		.getBody();
 	developerResponse.setProjects(projects);
 
