@@ -38,6 +38,8 @@ import devsearch.developers.ws.ui.model.response.ProjectResponse;
 @RequestMapping("developers")
 public class DeveloperController {
 
+    private static final String BEARER_PREFIX = "Bearer ";
+
     @Autowired
     private DeveloperService developerService;
 
@@ -86,7 +88,8 @@ public class DeveloperController {
 
 	DeveloperResponse developerResponse = mapper.map(developerDto, DeveloperResponse.class);
 
-	List<ProjectResponse> projects = projectsClient.getProjectsForDeveloper(developerResponse.getDeveloperId())
+	List<ProjectResponse> projects = projectsClient
+		.getProjectsForDeveloper(developerResponse.getDeveloperId(), getAuthHeaderValue(jwt))
 		.getBody();
 	developerResponse.setProjects(projects);
 
@@ -180,6 +183,10 @@ public class DeveloperController {
 	developerService.initialSeed(developersDto);
 
 	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
+    private String getAuthHeaderValue(Jwt jwt) {
+	return BEARER_PREFIX + jwt.getTokenValue();
     }
 
 }
