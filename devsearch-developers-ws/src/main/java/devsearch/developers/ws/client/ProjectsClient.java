@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import devsearch.developers.ws.ui.model.response.ProjectResponse;
+import feign.Headers;
 
 @FeignClient("projects-ws")
 public interface ProjectsClient {
 
     @GetMapping("/projects/all/{developerId}")
+    @Headers("Content-Type: application/json")
     public ResponseEntity<List<ProjectResponse>> getProjectsForDeveloper(
 	    @PathVariable(name = "developerId") String developerId);
 }
