@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import devsearch.common.exception.DevsearchApiException;
 import devsearch.developers.ws.client.ImageClient;
+import devsearch.developers.ws.client.ProjectsClient;
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.security.jwt.JwtService;
 import devsearch.developers.ws.service.DeveloperService;
@@ -31,6 +32,7 @@ import devsearch.developers.ws.ui.model.request.DeveloperRequest;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperResponse;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
+import devsearch.developers.ws.ui.model.response.ProjectResponse;
 
 @RestController
 @RequestMapping("developers")
@@ -44,6 +46,9 @@ public class DeveloperController {
 
     @Autowired
     private ImageClient imageClient;
+
+    @Autowired
+    private ProjectsClient projectsClient;
 
     @Autowired
     private ModelMapper mapper;
@@ -79,7 +84,13 @@ public class DeveloperController {
 	    }
 	}
 
-	return mapper.map(developerDto, DeveloperResponse.class);
+	DeveloperResponse developerResponse = mapper.map(developerDto, DeveloperResponse.class);
+
+	List<ProjectResponse> projects = projectsClient.getProjectsForDeveloper(developerResponse.getDeveloperId())
+		.getBody();
+	developerResponse.setProjects(projects);
+
+	return developerResponse;
     }
 
     @GetMapping(path = "/public/user/{username}")

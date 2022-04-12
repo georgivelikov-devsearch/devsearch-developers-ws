@@ -19,8 +19,9 @@ public class DeveloperResponse {
     private String locationCity;
     private String locationCountry;
     private String developerPictureUrl;
-    private List<SkillDescriptionResponse> skillDescriptions;
     private String publicKey;
+    private List<SkillDescriptionResponse> skillDescriptions;
+    private List<ProjectResponse> projects;
 
     public String getDeveloperId() {
 	return developerId;
@@ -142,6 +143,14 @@ public class DeveloperResponse {
 	this.developerPictureUrl = developerPictureUrl;
     }
 
+    public String getPublicKey() {
+	return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+	this.publicKey = publicKey;
+    }
+
     public List<SkillDescriptionResponse> getSkillDescriptions() {
 	return skillDescriptions;
     }
@@ -150,11 +159,11 @@ public class DeveloperResponse {
 	this.skillDescriptions = skillDescriptions;
     }
 
-    public String getPublicKey() {
-	return publicKey;
+    public List<ProjectResponse> getProjects() {
+	return projects;
     }
 
-    public void setPublicKey(String publicKey) {
-	this.publicKey = publicKey;
+    public void setProjects(List<ProjectResponse> projects) {
+	this.projects = projects;
     }
 }
