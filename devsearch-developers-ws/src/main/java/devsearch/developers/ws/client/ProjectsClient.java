@@ -12,7 +12,7 @@ import devsearch.developers.ws.ui.model.response.ProjectResponse;
 @FeignClient("projects-ws")
 public interface ProjectsClient {
 
-    @GetMapping("/projects/all/{username}")
+    @GetMapping("/projects/all/{developerId}")
     public ResponseEntity<List<ProjectResponse>> getProjectsForDeveloper(
-	    @PathVariable(name = "username") String username);
+	    @PathVariable(name = "developerId") String developerId);
 }
