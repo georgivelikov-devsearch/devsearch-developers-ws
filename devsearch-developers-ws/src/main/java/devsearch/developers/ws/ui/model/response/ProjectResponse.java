@@ -98,14 +98,6 @@ public class ProjectResponse {
 	this.tags = tags;
     }
 
-    public List<CommentResponse> getComments() {
-	return comments;
-    }
-
-    public void setComments(List<CommentResponse> comments) {
-	this.comments = comments;
-    }
-
     public String getProjectPictureUrl() {
 	return projectPictureUrl;
     }
