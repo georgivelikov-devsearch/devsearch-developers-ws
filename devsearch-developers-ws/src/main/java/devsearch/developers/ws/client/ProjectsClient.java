@@ -19,4 +19,9 @@ public interface ProjectsClient {
     public ResponseEntity<List<ProjectResponse>> getProjectsForDeveloper(
 	    @PathVariable(name = "developerId") String developerId,
 	    @RequestHeader(value = "Authorization", required = true) String authorizationHeader);
+
+    @GetMapping("/projects/public/all/{username}")
+    @Headers("Content-Type: application/json")
+    public ResponseEntity<List<ProjectResponse>> getProjectsForDeveloperByUsername(
+	    @PathVariable(name = "username") String username);
 }

@@ -105,6 +105,12 @@ public class DeveloperController {
 	}
 
 	DeveloperResponse developerResponse = mapper.map(developerDto, DeveloperResponse.class);
+
+	List<ProjectResponse> projects = projectsClient
+		.getProjectsForDeveloperByUsername(developerResponse.getUsername())
+		.getBody();
+	developerResponse.setProjects(projects);
+
 	// Removing developerId from public data
 	developerResponse.setDeveloperId(null);
 
