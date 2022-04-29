@@ -23,12 +23,16 @@ import devsearch.developers.ws.client.ImageClient;
 import devsearch.developers.ws.client.ProjectsClient;
 import devsearch.developers.ws.exception.ExceptionMessages;
 import devsearch.developers.ws.security.jwt.JwtService;
+import devsearch.developers.ws.service.CommentService;
 import devsearch.developers.ws.service.DeveloperService;
+import devsearch.developers.ws.shared.dto.CommentDto;
 import devsearch.developers.ws.shared.dto.DeveloperDto;
 import devsearch.developers.ws.shared.dto.DeveloperListDto;
 import devsearch.developers.ws.shared.mapper.ModelMapper;
+import devsearch.developers.ws.ui.model.request.CommentRequest;
 import devsearch.developers.ws.ui.model.request.DeveloperImageRequest;
 import devsearch.developers.ws.ui.model.request.DeveloperRequest;
+import devsearch.developers.ws.ui.model.response.CommentResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperListResponse;
 import devsearch.developers.ws.ui.model.response.DeveloperResponse;
 import devsearch.developers.ws.ui.model.response.ImageResponse;
@@ -42,6 +46,9 @@ public class DeveloperController {
 
     @Autowired
     private DeveloperService developerService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private JwtService jwtService;
@@ -175,18 +182,25 @@ public class DeveloperController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<String> commentProject(@RequestBody List<DeveloperRequest> developerRequests)
-	    throws DevsearchApiException {
+    public CommentResponse commentProject(@RequestBody CommentRequest commentRequest) throws DevsearchApiException {
+	CommentDto commentDto = mapper.map(commentRequest, CommentDto.class);
+	CommentDto newCommentDto = commentService.createComment(commentDto);
 
-	List<DeveloperDto> developersDto = new ArrayList<>();
-	for (DeveloperRequest developerRequest : developerRequests) {
-	    DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
-	    developersDto.add(developerDto);
+	return mapper.map(newCommentDto, CommentResponse.class);
+    }
+
+    @GetMapping("/comments")
+    public List<CommentResponse> commentsForProject(
+	    @RequestParam(value = "projectId", defaultValue = "") String projectId) throws DevsearchApiException {
+
+	List<CommentDto> commentsDto = commentService.getCommentsByProjectId(projectId);
+	List<CommentResponse> responseList = new ArrayList<>();
+	for (CommentDto commentDto : commentsDto) {
+	    CommentResponse commentResponse = mapper.map(commentDto, CommentResponse.class);
+	    responseList.add(commentResponse);
 	}
 
-	developerService.initialSeed(developersDto);
-
-	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	return responseList;
     }
 
     // TODO add delete mapping
