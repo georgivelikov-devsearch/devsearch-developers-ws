@@ -174,6 +174,21 @@ public class DeveloperController {
 	return mapper.map(updatedDeveloper, DeveloperResponse.class);
     }
 
+    @PostMapping("/comment")
+    public ResponseEntity<String> commentProject(@RequestBody List<DeveloperRequest> developerRequests)
+	    throws DevsearchApiException {
+
+	List<DeveloperDto> developersDto = new ArrayList<>();
+	for (DeveloperRequest developerRequest : developerRequests) {
+	    DeveloperDto developerDto = mapper.map(developerRequest, DeveloperDto.class);
+	    developersDto.add(developerDto);
+	}
+
+	developerService.initialSeed(developersDto);
+
+	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
     // TODO add delete mapping
 
     @PostMapping("/initial")

@@ -72,6 +72,9 @@ public class DeveloperEntity implements Serializable {
     @OneToMany(mappedBy = "developer")
     private List<SkillDescriptionEntity> skillDescriptions;
 
+    @OneToMany(mappedBy = "developer")
+    private List<CommentEntity> comments;
+
     @Column(nullable = false, unique = true, length = 30)
     private String publicKey;
 
@@ -217,5 +220,13 @@ public class DeveloperEntity implements Serializable {
 
     public void setPublicKey(String publicKey) {
 	this.publicKey = publicKey;
+    }
+
+    public List<CommentEntity> getComments() {
+	return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+	this.comments = comments;
     }
 }
