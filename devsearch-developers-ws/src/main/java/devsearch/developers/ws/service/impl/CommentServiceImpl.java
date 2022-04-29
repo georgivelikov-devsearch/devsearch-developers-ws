@@ -39,7 +39,12 @@ public class CommentServiceImpl implements CommentService {
 
 	CommentEntity newCommentEntity = commentRepository.save(commentEntity);
 
-	return mapper.map(newCommentEntity, CommentDto.class);
+	CommentDto returnValue = mapper.map(newCommentEntity, CommentDto.class);
+
+	returnValue.setAuthor(
+		newCommentEntity.getDeveloper().getFirstName() + " " + newCommentEntity.getDeveloper().getLastName());
+
+	return returnValue;
     }
 
     @Override
@@ -49,6 +54,8 @@ public class CommentServiceImpl implements CommentService {
 	List<CommentDto> commentsForProjectDto = new ArrayList<>();
 	for (CommentEntity commentEntity : commentsForProject) {
 	    CommentDto commentDto = mapper.map(commentEntity, CommentDto.class);
+	    commentDto.setAuthor(
+		    commentEntity.getDeveloper().getFirstName() + " " + commentEntity.getDeveloper().getLastName());
 	    commentsForProjectDto.add(commentDto);
 	}
 

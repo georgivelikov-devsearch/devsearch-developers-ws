@@ -6,7 +6,7 @@ public class CommentResponse {
 
     private String commentText;
 
-    private String developerId;
+    private String author;
 
     private String publicKey;
 
@@ -30,12 +30,12 @@ public class CommentResponse {
 	this.commentText = commentText;
     }
 
-    public String getDeveloperId() {
-	return developerId;
+    public String getAuthor() {
+	return author;
     }
 
-    public void setDeveloperId(String developerId) {
-	this.developerId = developerId;
+    public void setAuthor(String author) {
+	this.author = author;
     }
 
     public String getPublicKey() {

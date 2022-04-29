@@ -6,13 +6,15 @@ public class CommentDto {
 
     private String commentText;
 
-    private String developerId;
+    private String author;
 
     private String publicKey;
 
     private String projectId;
 
     private boolean positiveFeedback;
+
+    private String developerId;
 
     public String getCommentId() {
 	return commentId;
@@ -30,12 +32,12 @@ public class CommentDto {
 	this.commentText = commentText;
     }
 
-    public String getDeveloperId() {
-	return developerId;
+    public String getAuthor() {
+	return author;
     }
 
-    public void setDeveloperId(String developerId) {
-	this.developerId = developerId;
+    public void setAuthor(String author) {
+	this.author = author;
     }
 
     public String getPublicKey() {
@@ -60,5 +62,13 @@ public class CommentDto {
 
     public void setPositiveFeedback(boolean positiveFeedback) {
 	this.positiveFeedback = positiveFeedback;
+    }
+
+    public String getDeveloperId() {
+	return developerId;
+    }
+
+    public void setDeveloperId(String developerId) {
+	this.developerId = developerId;
     }
 }
