@@ -41,8 +41,7 @@ public class CommentServiceImpl implements CommentService {
 
 	CommentDto returnValue = mapper.map(newCommentEntity, CommentDto.class);
 
-	returnValue.setAuthor(
-		newCommentEntity.getDeveloper().getFirstName() + " " + newCommentEntity.getDeveloper().getLastName());
+	returnValue = addAuthorInfo(returnValue, newCommentEntity);
 
 	return returnValue;
     }
@@ -54,12 +53,19 @@ public class CommentServiceImpl implements CommentService {
 	List<CommentDto> commentsForProjectDto = new ArrayList<>();
 	for (CommentEntity commentEntity : commentsForProject) {
 	    CommentDto commentDto = mapper.map(commentEntity, CommentDto.class);
-	    commentDto.setAuthor(
-		    commentEntity.getDeveloper().getFirstName() + " " + commentEntity.getDeveloper().getLastName());
+	    commentDto = addAuthorInfo(commentDto, commentEntity);
 	    commentsForProjectDto.add(commentDto);
 	}
 
 	return commentsForProjectDto;
     }
 
+    private CommentDto addAuthorInfo(CommentDto commentDto, CommentEntity commentEntity) {
+	commentDto.setAuthor(
+		commentEntity.getDeveloper().getFirstName() + " " + commentEntity.getDeveloper().getLastName());
+
+	commentDto.setAuthorPictureUrl(commentEntity.getDeveloper().getDeveloperPictureUrl());
+
+	return commentDto;
+    }
 }

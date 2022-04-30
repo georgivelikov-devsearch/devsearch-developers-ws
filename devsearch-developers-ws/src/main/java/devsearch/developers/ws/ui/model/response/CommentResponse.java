@@ -8,6 +8,8 @@ public class CommentResponse {
 
     private String author;
 
+    private String authorPictureUrl;
+
     private String publicKey;
 
     private String projectId;
@@ -38,6 +40,14 @@ public class CommentResponse {
 	this.author = author;
     }
 
+    public String getAuthorPictureUrl() {
+	return authorPictureUrl;
+    }
+
+    public void setAuthorPictureUrl(String authorPictureUrl) {
+	this.authorPictureUrl = authorPictureUrl;
+    }
+
     public String getPublicKey() {
 	return publicKey;
     }
@@ -61,4 +71,5 @@ public class CommentResponse {
     public void setPositiveFeedback(boolean positiveFeedback) {
 	this.positiveFeedback = positiveFeedback;
     }
+
 }
