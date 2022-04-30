@@ -61,8 +61,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentDto addAuthorInfo(CommentDto commentDto, CommentEntity commentEntity) {
-	commentDto.setAuthor(
-		commentEntity.getDeveloper().getFirstName() + " " + commentEntity.getDeveloper().getLastName());
+	commentDto.setAuthor(commentEntity.getDeveloper().getUsername());
 
 	commentDto.setAuthorPictureUrl(commentEntity.getDeveloper().getDeveloperPictureUrl());
 
