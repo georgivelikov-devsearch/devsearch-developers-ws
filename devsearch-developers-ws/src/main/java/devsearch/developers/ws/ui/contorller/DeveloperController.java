@@ -182,8 +182,13 @@ public class DeveloperController {
     }
 
     @PostMapping("/comment")
-    public CommentResponse commentProject(@RequestBody CommentRequest commentRequest) throws DevsearchApiException {
+    public CommentResponse commentProject(@RequestBody CommentRequest commentRequest, @AuthenticationPrincipal Jwt jwt)
+	    throws DevsearchApiException {
 	CommentDto commentDto = mapper.map(commentRequest, CommentDto.class);
+	String username = jwtService.getUsername(jwt);
+	DeveloperDto developerDto = developerService.getDeveloperByUsername(username);
+	commentDto.setDeveloperId(developerDto.getDeveloperId());
+
 	CommentDto newCommentDto = commentService.createComment(commentDto);
 
 	return mapper.map(newCommentDto, CommentResponse.class);
