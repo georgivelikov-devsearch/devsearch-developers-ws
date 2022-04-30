@@ -8,6 +8,8 @@ public class CommentDto {
 
     private String author;
 
+    private String authorFullname;
+
     private String authorPictureUrl;
 
     private String publicKey;
@@ -40,6 +42,14 @@ public class CommentDto {
 
     public void setAuthor(String author) {
 	this.author = author;
+    }
+
+    public String getAuthorFullname() {
+	return authorFullname;
+    }
+
+    public void setAuthorFullname(String authorFullname) {
+	this.authorFullname = authorFullname;
     }
 
     public String getAuthorPictureUrl() {

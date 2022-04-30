@@ -8,6 +8,8 @@ public class CommentResponse {
 
     private String author;
 
+    private String authorFullname;
+
     private String authorPictureUrl;
 
     private String publicKey;
@@ -38,6 +40,14 @@ public class CommentResponse {
 
     public void setAuthor(String author) {
 	this.author = author;
+    }
+
+    public String getAuthorFullname() {
+	return authorFullname;
+    }
+
+    public void setAuthorFullname(String authorFullname) {
+	this.authorFullname = authorFullname;
     }
 
     public String getAuthorPictureUrl() {
