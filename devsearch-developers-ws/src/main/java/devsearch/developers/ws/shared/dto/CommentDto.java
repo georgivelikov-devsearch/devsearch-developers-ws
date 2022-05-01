@@ -16,7 +16,7 @@ public class CommentDto {
 
     private String projectId;
 
-    private boolean positiveFeedback;
+    private int rating;
 
     private String developerId;
 
@@ -76,12 +76,12 @@ public class CommentDto {
 	this.projectId = projectId;
     }
 
-    public boolean isPositiveFeedback() {
-	return positiveFeedback;
+    public int getRating() {
+	return rating;
     }
 
-    public void setPositiveFeedback(boolean positiveFeedback) {
-	this.positiveFeedback = positiveFeedback;
+    public void setRating(int rating) {
+	this.rating = rating;
     }
 
     public String getDeveloperId() {

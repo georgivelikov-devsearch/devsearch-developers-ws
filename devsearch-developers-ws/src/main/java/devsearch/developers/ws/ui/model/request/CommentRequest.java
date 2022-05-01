@@ -6,7 +6,7 @@ public class CommentRequest {
 
     private String commentText;
 
-    private boolean positiveFeedback;
+    private int rating;
 
     public String getProjectId() {
 	return projectId;
@@ -24,12 +24,12 @@ public class CommentRequest {
 	this.commentText = commentText;
     }
 
-    public boolean isPositiveFeedback() {
-	return positiveFeedback;
+    public int getRating() {
+	return rating;
     }
 
-    public void setPositiveFeedback(boolean positiveFeedback) {
-	this.positiveFeedback = positiveFeedback;
+    public void setRating(int rating) {
+	this.rating = rating;
     }
 
 }

@@ -16,7 +16,7 @@ public class CommentResponse {
 
     private String projectId;
 
-    private boolean positiveFeedback;
+    private int rating;
 
     public String getCommentId() {
 	return commentId;
@@ -74,12 +74,12 @@ public class CommentResponse {
 	this.projectId = projectId;
     }
 
-    public boolean isPositiveFeedback() {
-	return positiveFeedback;
+    public int getRating() {
+	return rating;
     }
 
-    public void setPositiveFeedback(boolean positiveFeedback) {
-	this.positiveFeedback = positiveFeedback;
+    public void setRating(int rating) {
+	this.rating = rating;
     }
 
 }
