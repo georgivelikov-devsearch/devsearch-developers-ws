@@ -39,7 +39,7 @@ public class CommentEntity implements Serializable {
     private String projectId;
 
     @Column
-    private int rating;
+    private Integer rating;
 
     public long getId() {
 	return id;
@@ -89,11 +89,11 @@ public class CommentEntity implements Serializable {
 	this.projectId = projectId;
     }
 
-    public int getRating() {
+    public Integer getRating() {
 	return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
 	this.rating = rating;
     }
 
