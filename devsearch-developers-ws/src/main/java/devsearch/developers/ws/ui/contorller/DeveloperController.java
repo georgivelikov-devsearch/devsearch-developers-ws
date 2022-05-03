@@ -188,7 +188,7 @@ public class DeveloperController {
 
 	commentService.deleteComment(commentId);
 
-	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	return new ResponseEntity<String>(commentId, HttpStatus.OK);
     }
 
     @DeleteMapping("/comment")
