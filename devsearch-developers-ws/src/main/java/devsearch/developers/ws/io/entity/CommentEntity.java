@@ -25,7 +25,7 @@ public class CommentEntity implements Serializable {
     private String commentId;
 
     @Column(nullable = false)
-    @Size(min = 1, max = 500)
+    @Size(min = 1, max = 3000)
     private String commentText;
 
     @ManyToOne
