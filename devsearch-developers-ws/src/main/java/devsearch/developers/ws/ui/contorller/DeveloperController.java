@@ -182,7 +182,7 @@ public class DeveloperController {
 	return mapper.map(updatedDeveloper, DeveloperResponse.class);
     }
 
-    @PostMapping("/comment")
+    @DeleteMapping("/comment")
     public ResponseEntity<String> addCommentToProject(@PathVariable String commentId, @AuthenticationPrincipal Jwt jwt)
 	    throws DevsearchApiException {
 
@@ -191,7 +191,7 @@ public class DeveloperController {
 	return new ResponseEntity<String>(commentId, HttpStatus.OK);
     }
 
-    @DeleteMapping("/comment")
+    @PostMapping("/comment")
     public CommentResponse deleteComment(@RequestBody CommentRequest commentRequest, @AuthenticationPrincipal Jwt jwt)
 	    throws DevsearchApiException {
 	CommentDto commentDto = mapper.map(commentRequest, CommentDto.class);
