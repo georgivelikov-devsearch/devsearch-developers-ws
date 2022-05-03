@@ -10,4 +10,6 @@ public interface CommentService {
     public CommentDto createComment(CommentDto commentDto) throws DevsearchApiException;
 
     public List<CommentDto> getCommentsByProjectId(String projectId) throws DevsearchApiException;
+
+    public void deleteComment(String commentId) throws DevsearchApiException;
 }

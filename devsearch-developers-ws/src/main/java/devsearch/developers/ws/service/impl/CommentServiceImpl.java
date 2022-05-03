@@ -68,4 +68,11 @@ public class CommentServiceImpl implements CommentService {
 
 	return commentDto;
     }
+
+    @Override
+    public void deleteComment(String commentId) throws DevsearchApiException {
+	CommentEntity comment = commentRepository.findByCommentId(commentId);
+
+	commentRepository.delete(comment);
+    }
 }

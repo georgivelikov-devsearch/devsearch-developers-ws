@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -182,7 +183,16 @@ public class DeveloperController {
     }
 
     @PostMapping("/comment")
-    public CommentResponse commentProject(@RequestBody CommentRequest commentRequest, @AuthenticationPrincipal Jwt jwt)
+    public ResponseEntity<String> addCommentToProject(@PathVariable String commentId, @AuthenticationPrincipal Jwt jwt)
+	    throws DevsearchApiException {
+
+	commentService.deleteComment(commentId);
+
+	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/comment")
+    public CommentResponse deleteComment(@RequestBody CommentRequest commentRequest, @AuthenticationPrincipal Jwt jwt)
 	    throws DevsearchApiException {
 	CommentDto commentDto = mapper.map(commentRequest, CommentDto.class);
 	String username = jwtService.getUsername(jwt);
@@ -207,8 +217,6 @@ public class DeveloperController {
 
 	return responseList;
     }
-
-    // TODO add delete mapping
 
     @PostMapping("/initial")
     public ResponseEntity<String> initialSeed(@RequestBody List<DeveloperRequest> developerRequests)
