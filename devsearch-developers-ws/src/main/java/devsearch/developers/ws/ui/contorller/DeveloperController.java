@@ -182,7 +182,7 @@ public class DeveloperController {
 	return mapper.map(updatedDeveloper, DeveloperResponse.class);
     }
 
-    @DeleteMapping("/comment")
+    @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable String commentId, @AuthenticationPrincipal Jwt jwt)
 	    throws DevsearchApiException {
 
