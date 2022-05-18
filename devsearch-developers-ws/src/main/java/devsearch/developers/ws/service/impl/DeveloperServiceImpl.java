@@ -131,7 +131,6 @@ public class DeveloperServiceImpl implements DeveloperService {
 	Pageable pageableRequest = PageRequest.of(page, limit);
 	Page<DeveloperEntity> developerListPage = null;
 
-	// TODO refactor
 	if (searchText != null && !searchText.equals("")) {
 	    developerListPage = developerRepository.findAllByText(pageableRequest, searchText);
 	} else {
