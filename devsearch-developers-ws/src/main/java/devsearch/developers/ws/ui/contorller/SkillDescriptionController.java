@@ -76,7 +76,7 @@ public class SkillDescriptionController {
 	    @PathVariable String skillDescriptionId) throws DevsearchApiException {
 	skillDescriptionService.deleteSkillDescription(username, skillDescriptionId);
 
-	return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	return new ResponseEntity<String>(skillDescriptionId, HttpStatus.OK);
     }
 
     @PutMapping(path = "/{username}/order")
